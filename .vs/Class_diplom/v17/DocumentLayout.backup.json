@@ -1,0 +1,170 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\Constants.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Constants.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\particles.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:particles.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\particles.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:particles.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\Class_diplom.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Class_diplom.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\fields.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:fields.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\Constants.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Constants.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\fields.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:fields.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u043E\u0431\u0437\u043E\u0440\u0430 CMake||{B1CAA5B0-FEB1-4350-8AB9-F895876842F2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Class_diplom.cpp",
+              "DocumentMoniker": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\Class_diplom.cpp",
+              "RelativeDocumentMoniker": "Class_diplom.cpp",
+              "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\Class_diplom.cpp",
+              "RelativeToolTip": "Class_diplom.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-08T13:07:22.037Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CMakeLists.txt",
+              "DocumentMoniker": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\CMakeLists.txt",
+              "RelativeDocumentMoniker": "CMakeLists.txt",
+              "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\CMakeLists.txt",
+              "RelativeToolTip": "CMakeLists.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-02-10T17:49:22.232Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Constants.h",
+              "DocumentMoniker": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\Constants.h",
+              "RelativeDocumentMoniker": "Constants.h",
+              "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\Constants.h",
+              "RelativeToolTip": "Constants.h",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABwAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-08T16:21:36.879Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Constants.cpp",
+              "DocumentMoniker": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\Constants.cpp",
+              "RelativeDocumentMoniker": "Constants.cpp",
+              "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\Constants.cpp",
+              "RelativeToolTip": "Constants.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-08T16:09:45.101Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "particles.cpp",
+              "DocumentMoniker": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\particles.cpp",
+              "RelativeDocumentMoniker": "particles.cpp",
+              "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\particles.cpp",
+              "RelativeToolTip": "particles.cpp",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAUAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-08T13:19:55.164Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "particles.h",
+              "DocumentMoniker": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\particles.h",
+              "RelativeDocumentMoniker": "particles.h",
+              "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\particles.h",
+              "RelativeToolTip": "particles.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAB5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-08T13:19:33.078Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "fields.cpp",
+              "DocumentMoniker": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\fields.cpp",
+              "RelativeDocumentMoniker": "fields.cpp",
+              "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\fields.cpp",
+              "RelativeToolTip": "fields.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-08T13:16:32.099Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "fields.h",
+              "DocumentMoniker": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\fields.h",
+              "RelativeDocumentMoniker": "fields.h",
+              "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\fields.h",
+              "RelativeToolTip": "fields.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-08T13:15:24.984Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u043E\u0431\u0437\u043E\u0440\u0430 CMake",
+              "DocumentMoniker": "\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u043E\u0431\u0437\u043E\u0440\u0430 CMake",
+              "ToolTip": "\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u043E\u0431\u0437\u043E\u0440\u0430 CMake",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-02-08T13:06:00.475Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
