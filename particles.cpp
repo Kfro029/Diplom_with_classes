@@ -18,26 +18,26 @@ void Particles::fill_null_part() {
 
 
 void Particles::move(Field& field) {
-	//расчет скорости на dt/2
+	
 	for (std::size_t i = 0; i < x.size(); i++) {
 
+		//расчет скорости на dt/2
 		v_x[i] += field.field_by_x(x[i]) * q / m * (dt / 2.0);
-		//x[i] += v_x[i] * dt;
-	}
+		
 
-	//расчет поворота частицы
-	for (std::size_t i = 0; i < x.size(); i++) {
-		v_x[i] = v_x[i] * cos(q / m * B_0 * dt) + v_y[i] * sin(q / m * B_0 * dt);
-		v_y[i] = -v_x[i] * sin(q / m * B_0 * dt) + v_y[i] * cos(q / m * B_0 * dt);
- 	}
+		//расчет поворота частицы
+		t = q * B_0 / m * dt / 2;
+		s = 2 * t / (1 + t * t);
+		c = (1 - t * t) / (1 + t * t);
 
-	//движение на dt
-	for (std::size_t i = 0; i < x.size(); i++) {
+		v_x_new = v_x[i] * c + v_y[i] * s;
+		v_y[i] = -v_x[i] * s + v_y[i] * c;
+		v_x[i] = v_x_new;
 
+		//еще подвинулись на dt/2
 		v_x[i] += field.field_by_x(x[i]) * q / m * (dt / 2.0);
 		x[i] += v_x[i] * dt;
-
-
+	
 
 		// граничные условия: жесткая стенка
 		if (x[i] >= L - eps) {

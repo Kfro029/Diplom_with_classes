@@ -16,6 +16,13 @@ public:
     std::vector<double> v_x;
     std::vector<double> v_y;
 
+    double v_x_new; //костыль для решения СЛАУ (стр. 18 Б-Л)
+
+    // тангенс, синус и косинус для вращения
+    double t; 
+    double s;
+    double c;
+
     std::vector<double> rho;
     
 
