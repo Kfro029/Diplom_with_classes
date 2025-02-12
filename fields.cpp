@@ -16,7 +16,7 @@ double Field::field_by_x(double x) {
 	double E_in_x = (E[ceil_x] * (dx - x_loc) + E[ceil_x + 1] * x_loc) / dx;
 	//std::cout << E_in_x << '\t' << x << "\n";
 	
-	return 0;
+	//return 1.0e9;
 	return E_in_x;
 }
 

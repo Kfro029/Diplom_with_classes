@@ -16,19 +16,18 @@ int main() {
 
 
 	std::vector<double> V_ions(N, 0.0);
-	std::vector<double> V_el(N, L / (500 * dt));
+	std::vector<double> V_el(N, L / (1000 * dt));
 
 
 
 	for (std::size_t i = 0; i < X_ions.size(); i++) {
-		X_ions[i] = (i * 1.0) * L / X_ions.size();
-		X_el[i] = L / 3.0 + (i * 1.0) * (L / 3.0) / X_el.size();
+		X_ions[i] = (i * 1.0) / X_ions.size() * L;
+		X_el[i] = (i * 1.0) / X_el.size() * L;
 	}
-	/*
 	for (std::size_t i = 0; i < X_el.size(); i++) {
 		X_el[i] += 0.0005 * L * sin(X_el[i] / L * 2 * 3.1415926536 * k);
 	}
-	*/
+
 
 	Particles electrons(m_el, -q, X_el, V_el, V_el);
 	Particles ions(m_ion, q, X_ions, V_ions, V_ions);
@@ -55,16 +54,19 @@ int main() {
 	std::ofstream rho_el1;
 	rho_el1.open("rho_el.txt");
 	
-	std::vector<double> x_el = electrons.x;
-	std::vector<double> x_ions = ions.x;
+
+
+
+	std::vector<double> rho_el = electrons.rho;
+	std::vector<double> rho_ions = ions.rho;
 
 
 	
+	
+	for (std::size_t p = 0; p < rho_el.size(); p++) {
 
-	for (std::size_t p = 0; p < x_el.size(); p++) {
-
-		rho_ions1 << x_ions[p] << " ";
-		rho_el1 << x_el[p] << " ";
+		rho_ions1 << rho_ions[p] << " ";
+		rho_el1 << rho_el[p] << " ";
 
 	}
 	rho_ions1 << std::endl;
@@ -93,16 +95,16 @@ int main() {
 		electrons.CIC();
 		ions.CIC();
 
-		x_el = electrons.x;
-		x_ions = ions.x;
+		rho_el = electrons.rho;
+		rho_ions = ions.rho;
 
 		E.solve_field(electrons, ions);
 
 		
-		for (std::size_t p = 0; p < x_el.size(); p++) {
+		for (std::size_t p = 0; p < rho_el.size(); p++) {
 
-			rho_ions1 << x_ions[p] << " ";
-			rho_el1 << x_el[p] << " ";
+			rho_ions1 << rho_ions[p] << " ";
+			rho_el1 << rho_el[p] << " ";
 
 		}
 		rho_ions1 << std::endl;

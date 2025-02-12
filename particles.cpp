@@ -3,7 +3,7 @@
 
 // –еализаци€ конструктора
 Particles::Particles(double m, double q, std::vector <double> want_x, std::vector <double> want_v_x, std::vector <double> want_v_y)
-	: m(m), q(q), x(want_x), v_x(want_v_x), v_y(want_v_y), rho(num_ceil, 0.0)
+	: m(m), q(q), x(want_x), v_x(want_v_x), v_y(want_v_y), rho(num_ceil, 0.0), t(0.0), s(0.0), c(0.0)
 {
 	//std::cout << "q in constructor = " << q << std::endl;
 }
@@ -16,10 +16,26 @@ void Particles::fill_null_part() {
 };
 
 
+void Particles::swap_and_delete(int number) {
+
+	if (x.empty() || v_x.empty() || v_y.empty()) return;
+
+	if (number < x.size() - 1) {
+		std::swap(x[number], x.back());
+		std::swap(v_x[number], v_x.back());
+		std::swap(v_y[number], v_y.back());
+	}
+
+	x.resize(x.size() - 1);
+	v_x.resize(v_x.size() - 1);
+	v_y.resize(v_y.size() - 1);
+};
+
+
 
 void Particles::move(Field& field) {
 	
-	for (std::size_t i = 0; i < x.size(); i++) {
+	for (int i = x.size() - 1; i >= 0; i--) {
 
 		//расчет скорости на dt/2
 		v_x[i] += field.field_by_x(x[i]) * q / m * (dt / 2.0);
@@ -37,8 +53,16 @@ void Particles::move(Field& field) {
 		//еще подвинулись на dt/2
 		v_x[i] += field.field_by_x(x[i]) * q / m * (dt / 2.0);
 		x[i] += v_x[i] * dt;
-	
+		
 
+		
+		if (x[i] >= L || x[i] < 0) {
+			swap_and_delete(i);
+			//i--;
+		}
+		
+	
+		/*
 		// граничные услови€: жестка€ стенка
 		if (x[i] >= L - eps) {
 			x[i] = (L - eps) - (x[i] - (L - eps));
@@ -48,9 +72,10 @@ void Particles::move(Field& field) {
 			x[i] *= (-1);
 			v_x[i] *= (-1);
 		}
+		*/
+		
 
 	}
-
 
 	// fill_null_part();
 	// field.fill_null_field();
