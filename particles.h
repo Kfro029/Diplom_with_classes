@@ -37,6 +37,8 @@ public:
     void fill_null_part(); //после Move запускать это действо для массивов rho
 
     void swap_and_delete(int number);
+
+    void ionization_first();
     // std::vector<double> give_x(); // верунть координаты, например, для расчета полей
 
 

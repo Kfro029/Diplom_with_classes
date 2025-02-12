@@ -87,6 +87,8 @@ int main() {
 	for (int i = 1; i <= (T / dt); i++) {
 		electrons.move(E);
 		ions.move(E);
+
+		electrons.ionization_first();
 		//std::cout << rho_el.x[0] << "\t" << i << "\n";
 
 		electrons.fill_null_part();

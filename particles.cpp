@@ -127,6 +127,14 @@ void Particles::SETV(Field& field) {
 	// field.fill_null_field();
 }
 
+void Particles::ionization_first() {
+	for (int i = 0; i < 2; i++) {
+		x.push_back(L / 2.0);
+		v_x.push_back(0.0);
+		v_y.push_back(0.0);
+	}
+};
+
 std::vector<double> Particles::give_rho() {
 	return rho;
 }
