@@ -30,6 +30,10 @@ extern double B_0;
 
 extern int N; // число частиц
 
+extern double v_t_ions; //тепловая скорость ионов
+extern double v_t_el; //тепловая скорость электронов
+
+
 
 extern double m_ion;
 extern double m_el;

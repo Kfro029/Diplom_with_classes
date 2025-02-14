@@ -23,10 +23,17 @@ public:
     double s;
     double c;
 
+    // случайные числа дл€ скоростей
+    double R_s;
+    double R_theta;
+
+
+    double v_t; //теплова€ скорость
+
     std::vector<double> rho;
     
 
-    Particles(double m, double q, std::vector<double> want_x, std::vector<double> want_v_x, std::vector <double> want_v_y); //  онструктор
+    Particles(double m, double q, std::vector<double> want_x, std::vector<double> want_v_x, std::vector <double> want_v_y, double v_t); //  онструктор
 
 
     void move(Field& field); // ƒвижение
@@ -40,6 +47,8 @@ public:
 
     void ionization_first();
     // std::vector<double> give_x(); // верунть координаты, например, дл€ расчета полей
+
+    double get_random();
 
 
 };

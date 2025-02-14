@@ -31,6 +31,10 @@ double B_0 = 1.0;
 int N = num_ceil * 50; // число частиц
 
 
+double v_t_ions = L / (10000 * dt);
+double v_t_el = L / (10 * dt);
+
+
 double m_ion = 1.67 * pow(10, -27);
 double m_el = 9.31 * pow(10, -31);
 double q = 1.6 * pow(10, -19);
