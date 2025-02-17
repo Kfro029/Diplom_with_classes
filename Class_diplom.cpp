@@ -36,21 +36,21 @@ int main() {
 
 
 	double R_theta, R_s;
-	for (std::size_t i = 0; i < X_ions.size(); i++) {
+	for (int i = 0; i < X_ions.size(); i++) {
 		X_ions[i] = L * get_random();
+		R_s = get_random(); 
+		R_theta = get_random();
+
+		V_x_ions[i] = v_t_ions * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta);
+		V_y_ions[i] = v_t_ions * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta);
+
+
+		X_el[i] = get_random() * L;
 		R_s = get_random();
 		R_theta = get_random();
 
-		V_x_ions[i] = v_t_ions * std::sqrt(-2 * std::log(R_s)) * cos(2 * 3.1416 * R_theta);
-		V_y_ions[i] = v_t_ions * std::sqrt(-2 * std::log(R_s)) * sin(2 * 3.1416 * R_theta);
-
-
-		X_el[i] = L * get_random();
-		R_s = get_random();
-		R_theta = get_random();
-
-		V_x_el[i] = v_t_ions * std::sqrt(-2 * std::log(R_s)) * cos(2 * 3.1416 * R_theta);
-		V_y_el[i] = v_t_ions * std::sqrt(-2 * std::log(R_s)) * sin(2 * 3.1416 * R_theta);
+		V_x_el[i] = v_t_ions * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta);
+		V_y_el[i] = v_t_ions * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta);
 
 	}
 	/*
@@ -80,7 +80,8 @@ int main() {
 
 
 
-
+	std::ofstream fi1;
+	fi1.open("fi.txt");
 	
 	std::ofstream rho_ions1;
 	rho_ions1.open("rho_ions.txt");
@@ -117,12 +118,13 @@ int main() {
 
 	E.solve_field(electrons, ions);
 
+	std::vector<double> fi = E.fi;
 
 	for (int i = 1; i <= (T / dt); i++) {
 		electrons.move(E);
 		ions.move(E);
 
-		electrons.ionization_first();
+		//electrons.ionization_first();
 		//std::cout << rho_el.x[0] << "\t" << i << "\n";
 
 		electrons.fill_null_part();
@@ -136,15 +138,19 @@ int main() {
 
 		E.solve_field(electrons, ions);
 
+		fi = E.fi;
+
 		
 		for (std::size_t p = 0; p < rho_el.size(); p++) {
 
 			rho_ions1 << rho_ions[p] << " ";
 			rho_el1 << rho_el[p] << " ";
+			fi1 << fi[p] << " ";
 
 		}
 		rho_ions1 << std::endl;
 		rho_el1 << std::endl;
+		fi1 << std::endl;
 		// break;
 		
 		

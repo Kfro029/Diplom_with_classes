@@ -58,13 +58,15 @@ void Particles::move(Field& field) {
 		
 
 		
+		/*
+		// ГУ вылет и все
 		if (x[i] >= L || x[i] < 0) {
 			swap_and_delete(i);
 			//i--;
 		}
-		
+		*/
 	
-		/*
+		
 		// граничные условия: жесткая стенка
 		if (x[i] >= L - eps) {
 			x[i] = (L - eps) - (x[i] - (L - eps));
@@ -74,7 +76,7 @@ void Particles::move(Field& field) {
 			x[i] *= (-1);
 			v_x[i] *= (-1);
 		}
-		*/
+		
 		
 
 	}
@@ -146,8 +148,8 @@ void Particles::ionization_first() {
 	R_theta = get_random();
 
 
-	v_x.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * cos(2 * 3.1416 * R_theta));
-	v_y.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * sin(2 * 3.1416 * R_theta));
+	v_x.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta));
+	v_y.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
 };
 
 std::vector<double> Particles::give_rho() {

@@ -38,3 +38,8 @@ extern double v_t_el; //тепловая скорость электронов
 extern double m_ion;
 extern double m_el;
 extern double q;
+
+extern double T_eV;
+
+extern double kB;   // Постоянная Больцмана (Дж/К)
+extern double eV_to_K;
