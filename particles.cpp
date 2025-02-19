@@ -4,9 +4,12 @@
 #include <cmath>
 
 // Реализация конструктора
-Particles::Particles(double m, double q, std::vector <double> want_x, std::vector <double> want_v_x, std::vector <double> want_v_y, double v_t)
-	: m(m), q(q), x(want_x), v_x(want_v_x), v_y(want_v_y), rho(num_ceil, 0.0), t(0.0), s(0.0), c(0.0), v_t(v_t)
+Particles::Particles(double m, double q, double v_t, int seed)
+	: m(m), q(q), rho(num_ceil, 0.0), t(0.0), s(0.0), c(0.0), v_t(v_t), seed(seed)
 {
+	x.resize(N);
+	v_x.resize(N);
+	v_y.resize(N);
 	//std::cout << "q in constructor = " << q << std::endl;
 }
 
@@ -132,9 +135,8 @@ void Particles::SETV(Field& field) {
 }
 
 double Particles::get_random() {
-	static std::random_device rd;  // Источник энтропии (используется один раз)
-	static std::mt19937 gen(rd()); // Генератор случайных чисел
-	static std::uniform_real_distribution<double> dist(0.0, 1.0); // Равномерное распределение
+	static std::mt19937_64 gen(seed); // Фиксированный seed
+	static std::uniform_real_distribution<double> dist(0.0, 1.0);
 
 	return dist(gen);
 }
@@ -155,3 +157,18 @@ void Particles::ionization_first() {
 std::vector<double> Particles::give_rho() {
 	return rho;
 }
+
+void Particles::fill() {
+	for (std::size_t i = 0; i < N; i++) {
+		x[i] = L * get_random();
+
+	}
+	for (std::size_t i = 0; i < N; i++) {
+		R_s = get_random();
+		R_theta = get_random();
+
+		v_x[i] = v_t * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta);
+		v_y[i] = v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta);
+	}
+
+} 

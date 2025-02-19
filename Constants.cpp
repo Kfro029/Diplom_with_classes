@@ -28,7 +28,7 @@ int k = 8;
 double E_0 = 1.0 * pow(10, -12);
 double B_0 = 1.0;
 
-int N = num_ceil * 50000; // число частиц
+int N = num_ceil * 500; // число частиц
 
 //double v_t_el = L / (10 * dt);
 //double v_t_ions = 0.0236 * v_t_el;
@@ -43,7 +43,7 @@ double kB = 1.380649e-23;   // Постоянная Больцмана (Дж/К)
 double eV_to_K = 11604.525; // 1 эВ = 11604.525 K
 
 
-double T_eV = 10; // эВ
+double T_eV = 100; // эВ
 
-double v_t_el = std::sqrt(2 * kB * T_eV * eV_to_K / m_el);
-double v_t_ions = std::sqrt(2 * kB * T_eV * eV_to_K / m_ion);
+double v_t_el = std::sqrt(3 * kB * T_eV * eV_to_K / m_el);
+double v_t_ions = std::sqrt(3 * kB * T_eV * eV_to_K / m_ion);

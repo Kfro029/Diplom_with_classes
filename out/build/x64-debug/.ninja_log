@@ -1,12 +1,6 @@
 # ninja log v5
-9	1632	7614132033618423	CMakeFiles/Class_diplom.dir/particles.cpp.obj	83558e030464a4fa
-7	842	7613056095809600	CMakeFiles/Class_diplom.dir/fields.cpp.obj	cea3fbd49a31985c
-3	1687	7614132034143546	CMakeFiles/Class_diplom.dir/Class_diplom.cpp.obj	67c9df4d0302c7e5
-2	136	7614126748879143	CMakeFiles/Class_diplom.dir/Constants.cpp.obj	9b203486222f78f
-1687	2062	7614132037213751	Class_diplom.exe	4e5453e861e6766e
-2	464	7614251912892187	CMakeFiles/Class_diplom.dir/Constants.cpp.obj	9b203486222f78f
-465	702	7614251914802190	Class_diplom.exe	4e5453e861e6766e
-2	140	7614255234276865	CMakeFiles/Class_diplom.dir/Constants.cpp.obj	9b203486222f78f
-141	330	7614255235846873	Class_diplom.exe	4e5453e861e6766e
-2	136	7614257954186741	CMakeFiles/Class_diplom.dir/Constants.cpp.obj	9b203486222f78f
-137	311	7614257955616710	Class_diplom.exe	4e5453e861e6766e
+1	1185	7615890197639836	CMakeFiles/Class_diplom.dir/particles.cpp.obj	83558e030464a4fa
+9	1293	7615873628415022	CMakeFiles/Class_diplom.dir/fields.cpp.obj	cea3fbd49a31985c
+4	2111	7615989224597972	CMakeFiles/Class_diplom.dir/Class_diplom.cpp.obj	67c9df4d0302c7e5
+4	137	7616004663896333	CMakeFiles/Class_diplom.dir/Constants.cpp.obj	9b203486222f78f
+138	338	7616004665587579	Class_diplom.exe	4e5453e861e6766e

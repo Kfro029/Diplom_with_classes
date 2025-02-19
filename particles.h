@@ -30,11 +30,14 @@ public:
 
     double v_t; //тепловая скорость
 
+    int seed; // для фиксирования случайности
+
     std::vector<double> rho;
     
 
-    Particles(double m, double q, std::vector<double> want_x, std::vector<double> want_v_x, std::vector <double> want_v_y, double v_t); // Конструктор
+    Particles(double m, double q, double v_t, int seed); // Конструктор
 
+    void fill(); // заполнение 
 
     void move(Field& field); // Движение
     void SETV(Field& field); //начальное даижение на -t/2
