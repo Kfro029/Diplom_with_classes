@@ -26,7 +26,7 @@ int k = 8;
 // int NX = L / dx; // в какой €чейке частица
 
 double E_0 = 1.0 * pow(10, -12);
-double B_0 = 1.0;
+//double B_0 = 1.0;
 
 int N = num_ceil * 500; // число частиц
 

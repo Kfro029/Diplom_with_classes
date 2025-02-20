@@ -19,9 +19,9 @@ public:
     double v_x_new; //костыль для решения СЛАУ (стр. 18 Б-Л)
 
     // тангенс, синус и косинус для вращения
-    double t; 
-    double s;
-    double c;
+    double temp_t; 
+    double temp_s;
+    double temp_c;
 
     // случайные числа для скоростей
     double R_s;
@@ -39,8 +39,8 @@ public:
 
     void fill(); // заполнение 
 
-    void move(Field& field); // Движение
-    void SETV(Field& field); //начальное даижение на -t/2
+    void move(Field& fieldE, FieldB& B); // Движение
+    void SETV(Field& fieldE, FieldB& B); //начальное даижение на -t/2
     void CIC(); //расчет плотности заряда
     std::vector<double> give_rho(); //выдаем плотность для Пуассона в полях
 

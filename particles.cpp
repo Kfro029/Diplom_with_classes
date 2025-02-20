@@ -1,5 +1,6 @@
 #include "particles.h" 
 #include "fields.h"
+#include "fieldB.h"
 #include <random>
 #include <cmath>
 
@@ -38,32 +39,32 @@ void Particles::swap_and_delete(int number) {
 
 
 
-void Particles::move(Field& field) {
+void Particles::move(Field& fieldE, FieldB& B) {
 	
 	for (int i = x.size() - 1; i >= 0; i--) {
 
 		//расчет скорости на dt/2
-		v_x[i] += field.field_by_x(x[i]) * q / m * (dt / 2.0);
+		v_x[i] += fieldE.field_by_x(x[i]) * q / m * (dt / 2.0);
 		
 
 		//расчет поворота частицы
-		t = q * B_0 / m * dt / 2;
-		s = 2 * t / (1 + t * t);
-		c = (1 - t * t) / (1 + t * t);
+		double temp_t = this->q * B.b_by_x(x[i]) / this->m * dt / 2;
+		double temp_s = 2 * temp_t / (1 + temp_t * temp_t);
+		double temp_c = (1 - temp_t * temp_t) / (1 + temp_t * temp_t);
 
-		v_x_new = v_x[i] * c + v_y[i] * s;
-		v_y[i] = -v_x[i] * s + v_y[i] * c;
-		v_x[i] = v_x_new;
+		double v_x_new = this->v_x[i] * temp_c + this->v_y[i] * temp_s;
+		this->v_y[i] = -this->v_x[i] * temp_s + this->v_y[i] * temp_c;
+		this->v_x[i] = v_x_new;
 
 		//еще подвинулись на dt/2
-		v_x[i] += field.field_by_x(x[i]) * q / m * (dt / 2.0);
-		x[i] += v_x[i] * dt;
+		this->v_x[i] += fieldE.field_by_x(x[i]) * this->q / this->m * (dt / 2.0);
+		this->x[i] += this->v_x[i] * dt;
 		
 
 		
 		/*
 		// ГУ вылет и все
-		if (x[i] >= L || x[i] < 0) {
+		if (this->x[i] >= L || this->x[i] < 0) {
 			swap_and_delete(i);
 			//i--;
 		}
@@ -71,13 +72,13 @@ void Particles::move(Field& field) {
 	
 		
 		// граничные условия: жесткая стенка
-		if (x[i] >= L - eps) {
-			x[i] = (L - eps) - (x[i] - (L - eps));
-			v_x[i] *= (-1);
+		if (this->x[i] >= L - eps) {
+			this->x[i] = (L - eps) - (this->x[i] - (L - eps));
+			this->v_x[i] *= (-1);
 		}
-		if (x[i] - eps <= 0) {
-			x[i] *= (-1);
-			v_x[i] *= (-1);
+		if (this->x[i] - eps <= 0) {
+			this->x[i] *= (-1);
+			this->v_x[i] *= (-1);
 		}
 		
 		
@@ -89,49 +90,74 @@ void Particles::move(Field& field) {
 }
 
 void Particles::CIC() {
-	for (std::size_t i = 0; i < x.size(); i++) {
+	for (std::size_t i = 0; i < this->x.size(); i++) {
 
 
-		int ceil_left = (x[i])  / dx;
+		int ceil_left = (this->x[i])  / dx;
 		int ceil_right = ceil_left + 1;		
 		//int ceil_right = std::min(static_cast<size_t>(ceil_left + 1), x.size()-1);
 		
-		double x_loc = fmod(x[i], dx);
+		double x_loc = fmod(this->x[i], dx);
 		//std::cout << "x[i]\t" << x[i] << "\ti\t" << i;
 		//std::cout << "\t left \t" << ceil_left << "\tright \t " << ceil_right << "\n";
 		
-		rho[ceil_left] += q * (dx - x_loc);
-		rho[ceil_right] += q * x_loc;
+		this->rho[ceil_left] += this->q * (dx - x_loc);
+		this->rho[ceil_right] += this->q * x_loc;
 		
 	}
 	//std::cout << rho[1];
 
-	for (std::size_t i = 0; i < rho.size(); i++) {
-		rho[i] *= (-n_2) / denom;
+	for (std::size_t i = 0; i < this->rho.size(); i++) {
+		this->rho[i] *= (-n_2) / denom;
 		//std::cout << rho[i] << "\t" << i << "\n";
 	}
 	
 }
 
-void Particles::SETV(Field& field) {
-	for (std::size_t i = 0; i < x.size(); i++) {
-		
+void Particles::SETV(Field& fieldE, FieldB& B) {
+	for (int i = x.size() - 1; i >= 0; i--) {
 
-		v_x[i] = field.field_by_x(x[i]) * (-q / 2.0) / m * dt;
-		x[i] += v_x[i] * dt;
+		//расчет скорости на dt/2
+		this->v_x[i] += fieldE.field_by_x(x[i]) * (-this->q/ 2.) / this->m * (dt / 2.0);
+
+
+		//расчет поворота частицы
+		double temp_t = this->q * B.b_by_x(x[i]) / this->m * dt / 2;
+		double temp_s = 2 * temp_t / (1 + temp_t * temp_t);
+		double temp_c = (1 - temp_t * temp_t) / (1 + temp_t * temp_t);
+
+		double v_x_new = this->v_x[i] * temp_c + this->v_y[i] * temp_s;
+		this->v_y[i] = -this->v_x[i] * temp_s + this->v_y[i] * temp_c;
+		this->v_x[i] = v_x_new;
+
+		//еще подвинулись на dt/2
+		this->v_x[i] += fieldE.field_by_x(x[i]) * (-this->q/2.0) / this->m * (dt / 2.0);
+		this->x[i] += this->v_x[i] * dt;
+
+
+
+		/*
+		// ГУ вылет и все
+		if (x[i] >= L || x[i] < 0) {
+			swap_and_delete(i);
+			//i--;
+		}
+		*/
+
+
 		// граничные условия: жесткая стенка
-		if (x[i] >= L - eps) {
-			x[i] = (L - eps) - (x[i] - (L - eps));
-			v_x[i] *= (-1);
+		if (this->x[i] >= L - eps) {
+			this->x[i] = (L - eps) - (this->x[i] - (L - eps));
+			this->v_x[i] *= (-1);
 		}
-		if (x[i] <= eps) {
-			x[i] *= (-1);
-			v_x[i] *= (-1);
+		if (this->x[i] - eps <= 0) {
+			this->x[i] *= (-1);
+			this->v_x[i] *= (-1);
 		}
+
+
 
 	}
-	// fill_null_part();
-	// field.fill_null_field();
 }
 
 double Particles::get_random() {

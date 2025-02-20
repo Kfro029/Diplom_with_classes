@@ -26,7 +26,7 @@ extern int k;
 // int NX = L / dx; // в какой €чейке частица
 
 extern double E_0;
-extern double B_0;
+//extern double B_0;
 
 extern int N; // число частиц
 

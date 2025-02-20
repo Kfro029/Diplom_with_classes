@@ -7,7 +7,7 @@
 #include <fstream>
 #include <random>
 #include <cmath>
-
+#include "fieldB.h"
 
 
 
@@ -34,6 +34,10 @@ int main() {
 	Particles electrons(m_el, -q, v_t_el, 1);
 	Particles ions(m_ion, q, v_t_ions, 2);
 
+	FieldB B;
+	//B.loadFromFile("B_values.txt");
+
+
 	//заполняются координаты и скорости соответственно заданным функциям
 	ions.fill();
 	electrons.fill();
@@ -47,8 +51,8 @@ int main() {
 	Field E;
 	E.solve_field(electrons, ions);
 		
-	electrons.SETV(E);
-	ions.SETV(E);
+	electrons.SETV(E, B);
+	ions.SETV(E, B);
 
 
 
@@ -93,8 +97,8 @@ int main() {
 	std::vector<double> fi = E.fi;
 
 	for (int i = 1; i <= (T / dt); i++) {
-		electrons.move(E);
-		ions.move(E);
+		electrons.move(E, B);
+		ions.move(E, B);
 
 		//electrons.ionization_first();
 		//std::cout << rho_el.x[0] << "\t" << i << "\n";
