@@ -43,7 +43,7 @@ double kB = 1.380649e-23;   // Постоянная Больцмана (Дж/К)
 double eV_to_K = 11604.525; // 1 эВ = 11604.525 K
 
 
-double T_eV = 100; // эВ
+double T_eV = 10; // эВ
 
 double v_t_el = std::sqrt(3 * kB * T_eV * eV_to_K / m_el);
 double v_t_ions = std::sqrt(3 * kB * T_eV * eV_to_K / m_ion);

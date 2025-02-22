@@ -19,7 +19,8 @@ public:
     std::vector<double> rho; // плотность заряда
     std::vector<double> rho_el; // плотность заряда электронов
     std::vector<double> rho_ions; // плотность заряда протонов
-
+    
+    std::vector<double> B; // магнитное поле
 
     Field(); // Конструктор
 
@@ -30,4 +31,6 @@ public:
     void fill_null_field(); //заполнить все нулями после Move/SETV
 
 
+    void loadFromFile(std::string filename);
+    double b_by_x(double x);
 };

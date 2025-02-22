@@ -1,11 +1,15 @@
 #include "fields.h"
 #include "cmath"
 #include "particles.h"
+#include <fstream>
 
 
 // Реализация конструктора
 Field::Field()
-	: E(num_ceil, 0.0), p(num_ceil - 2, 0.0), q(num_ceil - 2, 0.0), fi(num_ceil, 0.0), rho(num_ceil, 0.0), rho_el(num_ceil, 0.0), rho_ions(num_ceil, 0.0)
+	: E(num_ceil, 0.0),
+	p(num_ceil - 2, 0.0), q(num_ceil - 2, 0.0),
+	fi(num_ceil, 0.0), rho(num_ceil, 0.0), rho_el(num_ceil, 0.0), rho_ions(num_ceil, 0.0),
+	B(num_ceil, 1.0)
 {}
 
 // Реализация методов
@@ -38,8 +42,8 @@ void Field::fill_null_field() {
 
 void Field::solve_field(Particles& el, Particles& ions) {
 
-	rho_el = el.give_rho();
-	rho_ions = ions.give_rho();
+	rho_el = el.rho;
+	rho_ions = ions.rho;
 
 	for (std::size_t i = 0; i < rho.size(); i++) {
 		rho[i] = rho_el[i] + rho_ions[i];
@@ -76,4 +80,58 @@ void Field::solve_field(Particles& el, Particles& ions) {
 	//ions.fill_null_part();
 	calc_E();
 }
+
+void Field::loadFromFile(std::string filename) {
+	std::ifstream file(filename);
+	if (!file) {
+		std::cerr << "Don't find field B in file: " << filename << std::endl;
+		return;
+	}
+
+	std::vector<double> file_data;
+	double value;
+	while (file >> value) {
+		file_data.push_back(value);
+	}
+
+	int file_size = file_data.size();
+	int B_size = num_ceil;
+
+	if (file_size == B_size) {
+		B = file_data; // 
+	}
+	else {
+		std::cout << "start process of interpolation B..." << std::endl;
+
+		double dx_file = 1.0 / (file_size - 1);  // ??? ????? ? ????? (???????????????)
+		double dx_grid = dx;     // ??? ????? ?????? ?????
+
+		for (int i = 0; i < B_size; i++) {
+			double x_grid = i * dx_grid;  // ?????????? ? ????? ?????
+
+			// ?????????? ??????? ? file_data ??? ????????????
+			int idx = static_cast<int>(x_grid / dx_file);
+			double alpha = (x_grid - idx * dx_file) / dx_file;  // ??? ???????? ????????????
+
+			if (idx >= file_size - 1) {
+				B[i] = file_data.back();  // ??????? ?????? ?????? (x = L)
+			}
+			else {
+				B[i] = (1 - alpha) * file_data[idx] + alpha * file_data[idx + 1];  // ???????? ????????????
+			}
+		}
+	}
+}
+
+double Field::b_by_x(double x) {
+	int ceil_x = x / dx; //????? ?????? ??? ???????
+	double x_loc = fmod(x, dx); //?????????? ? ??????
+
+	double B_in_x = (B[ceil_x] * (dx - x_loc) + B[ceil_x + 1] * x_loc) / dx;
+	//std::cout << E_in_x << '\t' << x << "\n";
+
+	//return 1.0e9;
+	return B_in_x;
+}
+
 

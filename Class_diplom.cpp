@@ -29,12 +29,11 @@ int main() {
 	}
 	*/
 
-
 	//Создаются электроны и ионы
 	Particles electrons(m_el, -q, v_t_el, 1);
 	Particles ions(m_ion, q, v_t_ions, 2);
 
-	FieldB B;
+	
 	//B.loadFromFile("B_values.txt");
 
 
@@ -48,11 +47,12 @@ int main() {
 	electrons.CIC();
 	ions.CIC();
 	
-	Field E;
-	E.solve_field(electrons, ions);
+	Field fields;
+	fields.loadFromFile("B_values.txt");
+	fields.solve_field(electrons, ions);
 		
-	electrons.SETV(E, B);
-	ions.SETV(E, B);
+	electrons.SETV(fields);
+	ions.SETV(fields);
 
 
 
@@ -92,13 +92,13 @@ int main() {
 	
 
 
-	E.solve_field(electrons, ions);
+	fields.solve_field(electrons, ions);
 
-	std::vector<double> fi = E.fi;
+	std::vector<double> fi = fields.fi;
 
 	for (int i = 1; i <= (T / dt); i++) {
-		electrons.move(E, B);
-		ions.move(E, B);
+		electrons.move(fields);
+		ions.move(fields);
 
 		//electrons.ionization_first();
 		//std::cout << rho_el.x[0] << "\t" << i << "\n";
@@ -112,9 +112,9 @@ int main() {
 		rho_el = electrons.rho;
 		rho_ions = ions.rho;
 
-		E.solve_field(electrons, ions);
+		fields.solve_field(electrons, ions);
 
-		fi = E.fi;
+		fi = fields.fi;
 
 		
 		for (std::size_t p = 0; p < rho_el.size(); p++) {

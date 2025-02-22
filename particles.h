@@ -3,6 +3,7 @@
 #include <cmath>
 #include <vector>
 #include "Constants.h"
+#include <random>
 
 class Field;
 
@@ -30,25 +31,39 @@ public:
 
     double v_t; //теплова€ скорость
 
-    int seed; // дл€ фиксировани€ случайности
+    //int seed; // дл€ фиксировани€ случайности
 
     std::vector<double> rho;
+
+
+    //генератор случ чисел
+    std::mt19937_64 gen;
+    std::uniform_real_distribution<double> dist;
     
+
+    //вектор ионизации
+    std::vector<double> ionaze;
+
+    //загрузка файла
+    void loadFromFile(std::string filename);
+
+
 
     Particles(double m, double q, double v_t, int seed); //  онструктор
 
     void fill(); // заполнение 
 
-    void move(Field& fieldE, FieldB& B); // ƒвижение
-    void SETV(Field& fieldE, FieldB& B); //начальное даижение на -t/2
+    void move(Field& fieldE); // ƒвижение
+    void SETV(Field& fieldE); //начальное даижение на -t/2
     void CIC(); //расчет плотности зар€да
-    std::vector<double> give_rho(); //выдаем плотность дл€ ѕуассона в пол€х
+    //std::vector<double> give_rho(); //выдаем плотность дл€ ѕуассона в пол€х
 
     void fill_null_part(); //после Move запускать это действо дл€ массивов rho
 
     void swap_and_delete(int number);
 
     void ionization_first();
+    void ionization();
     // std::vector<double> give_x(); // верунть координаты, например, дл€ расчета полей
 
     double get_random();
