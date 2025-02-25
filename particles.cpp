@@ -7,7 +7,13 @@
 
 // Реализация конструктора
 Particles::Particles(double m, double q, double v_t, int seed)
-	: m(m), q(q), rho(num_ceil, 0.0), temp_t(0.0), temp_s(0.0), temp_c(0.0), v_t(v_t), gen(seed), dist(0.0, 1.0)
+	: m(m), q(q),
+	rho(num_ceil, 0.0), 
+	temp_t(0.0), temp_s(0.0), temp_c(0.0), v_t(v_t),
+	gen(seed), dist(0.0, 1.0),
+	out(0),
+	ionaze(num_ceil, 0.0),
+	collision(num_ceil, 0.05)
 {
 	x.resize(N);
 	v_x.resize(N);
@@ -17,13 +23,22 @@ Particles::Particles(double m, double q, double v_t, int seed)
 
 // Реализация методов
 
+//вероятность столкновения
+double Particles::if_collis(double x_part) {
+	x_ceil = x_part / dx;
+	x_loc = fmod(x_part, dx);
+	return (collision[x_ceil] * (dx - x_loc) + collision[x_ceil + 1] * x_loc) / dx;
+}
+
+
 //ее надо будет запускать после Move
 void Particles::fill_null_part() {
 	std::fill(rho.begin(), rho.end(), 0.0);
 };
 
-
+//одно из граничных условий
 void Particles::swap_and_delete(int number) {
+	out++;
 
 	if (x.empty() || v_x.empty() || v_y.empty()) return;
 
@@ -39,7 +54,7 @@ void Particles::swap_and_delete(int number) {
 };
 
 
-
+// движение
 void Particles::move(Field& fieldE) {
 	
 	for (int i = x.size() - 1; i >= 0; i--) {
@@ -63,15 +78,15 @@ void Particles::move(Field& fieldE) {
 		
 
 		
-		/*
+		
 		// ГУ вылет и все
 		if (this->x[i] >= L || this->x[i] < 0) {
 			swap_and_delete(i);
+			continue;
 			//i--;
 		}
-		*/
 	
-		
+		/*
 		// граничные условия: жесткая стенка
 		if (x[i] >= L - eps) {
 			x[i] = (L - eps) - (x[i] - (L - eps));
@@ -81,15 +96,24 @@ void Particles::move(Field& fieldE) {
 			x[i] *= (-1);
 			v_x[i] *= (-1);
 		}
-		
-		
+		*/
 
+		
+		if (get_random() < if_collis(x[i])) {
+			R_s = get_random();
+			R_theta = get_random();
+
+			v_x[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta));
+			v_y[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
+		}
+		
 	}
 
 	// fill_null_part();
 	// field.fill_null_field();
 }
 
+// подсчет плотности заряда
 void Particles::CIC() {
 	for (std::size_t i = 0; i < x.size(); i++) {
 
@@ -115,6 +139,7 @@ void Particles::CIC() {
 	
 }
 
+// начальная подвижка
 void Particles::SETV(Field& fieldE) {
 	for (int i = x.size() - 1; i >= 0; i--) {
 
@@ -137,15 +162,16 @@ void Particles::SETV(Field& fieldE) {
 
 
 
-		/*
+		
 		// ГУ вылет и все
 		if (x[i] >= L || x[i] < 0) {
 			swap_and_delete(i);
+			continue;
 			//i--;
 		}
-		*/
+		
 
-
+		/*
 		// граничные условия: жесткая стенка
 		if (x[i] >= L - eps) {
 			x[i] = (L - eps) - (x[i] - (L - eps));
@@ -155,18 +181,28 @@ void Particles::SETV(Field& fieldE) {
 			x[i] *= (-1);
 			v_x[i] *= (-1);
 		}
+		*/
 
 
+		
+		if (get_random() < if_collis(x[i])) {
+			R_s = get_random();
+			R_theta = get_random();
 
+			v_x[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta));
+			v_y[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
+		}
+		
 	}
 }
 
+//рандомное число
 double Particles::get_random() {
 	return dist(gen);
 }
 
 
-
+//появление одной частицы в случайном месте с Максвелловским распределением
 void Particles::ionization_first() {
 	x.push_back(L * get_random());
 
@@ -178,19 +214,20 @@ void Particles::ionization_first() {
 	v_y.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
 };
 
-
+// начальное заполнение частицами
 void Particles::fill() {
 	for (std::size_t i = 0; i < N; i++) {
 		ionization_first();
 	}
 }
 
+// ионизация
 void Particles::ionization() {
-	for (std::size_t i = 0; i < ionaze.size(); i++) {
+	for (std::size_t i = 0; i + 1 < ionaze.size(); i++) {
 
 		// целая часть ионизации в ячейке
 		for (int j = 0; j < int(ionaze[i]); j++) {
-			x.push_back((i + get_random()) * dx);
+			x.push_back(((i * 1.0) + get_random()) * dx);
 
 			R_s = get_random();
 			R_theta = get_random();
@@ -200,7 +237,7 @@ void Particles::ionization() {
 		}
 		//дробная
 		if (get_random() < fmod(ionaze[i], 1.0)) {
-			x.push_back((i + get_random()) * dx);
+			x.push_back((i  + get_random()) * dx);
 
 			R_s = get_random();
 			R_theta = get_random();
@@ -213,11 +250,11 @@ void Particles::ionization() {
 
 }
 
-
+// подгрузка функции ионизации из файла
 void Particles::loadFromFile(std::string filename) {
 	std::ifstream file(filename);
 	if (!file) {
-		std::cerr << "Don't find ionization func in file: " << filename << std::endl;
+		std::cerr << "Don't find field B in file: " << filename << std::endl;
 		return;
 	}
 
@@ -228,29 +265,29 @@ void Particles::loadFromFile(std::string filename) {
 	}
 
 	int file_size = file_data.size();
-	int B_size = num_ceil;
+	//int B_size = num_ceil;
 
 	if (file_size == num_ceil) {
-		ionaze = file_data; // 
+		ionaze = file_data;
 	}
 	else {
-		std::cout << "start process of interpolation ionaze function..." << std::endl;
+		std::cout << "start process of interpolation ionization function..." << std::endl;
+		// B.resize(B_size);  
 
-		double dx_file = 1.0 / (file_size - 1);  // ??? ????? ? ????? (???????????????)
-		double dx_grid = dx;     // ??? ????? ?????? ?????
+		double dx_file = L / (file_size - 1);  // Исправлено
+		double dx_grid = dx;
 
-		for (int i = 0; i < B_size; i++) {
-			double x_grid = i * dx_grid;  // ?????????? ? ????? ?????
+		for (int i = 0; i < num_ceil; i++) {
+			x_grid = i * dx;
 
-			// ?????????? ??????? ? file_data ??? ????????????
-			int idx = static_cast<int>(x_grid / dx_file);
-			double alpha = (x_grid - idx * dx_file) / dx_file;  // ??? ???????? ????????????
+			idx = static_cast<int>(x_grid / dx_file);
+			alpha = (x_grid - idx * dx_file) / dx_file;
 
 			if (idx >= file_size - 1) {
-				ionaze[i] = file_data.back();  // ??????? ?????? ?????? (x = L)
+				ionaze[i] = file_data.back();
 			}
 			else {
-				ionaze[i] = (1 - alpha) * file_data[idx] + alpha * file_data[idx + 1];  // ???????? ????????????
+				ionaze[i] = (1 - alpha) * file_data[idx] + alpha * file_data[idx + 1];
 			}
 		}
 	}

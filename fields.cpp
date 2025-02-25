@@ -9,7 +9,8 @@ Field::Field()
 	: E(num_ceil, 0.0),
 	p(num_ceil - 2, 0.0), q(num_ceil - 2, 0.0),
 	fi(num_ceil, 0.0), rho(num_ceil, 0.0), rho_el(num_ceil, 0.0), rho_ions(num_ceil, 0.0),
-	B(num_ceil, 1.0)
+	B(num_ceil, 0.0)
+	
 {}
 
 // Реализация методов
@@ -78,6 +79,14 @@ void Field::solve_field(Particles& el, Particles& ions) {
 	//fill_null_field(); //экспериментальный тест
 	//el.fill_null_part();
 	//ions.fill_null_part();
+
+	//добавим разность потенциалов на катоде и аноде:
+	
+	for (std::size_t i = 0; i < fi.size(); i++) {
+		fi[i] += 100.0 + 100.0 * (i * 1.0) / fi.size();
+	}
+	
+
 	calc_E();
 }
 
@@ -98,26 +107,26 @@ void Field::loadFromFile(std::string filename) {
 	int B_size = num_ceil;
 
 	if (file_size == B_size) {
-		B = file_data; // 
+		B = file_data;
 	}
 	else {
 		std::cout << "start process of interpolation B..." << std::endl;
+		// B.resize(B_size);  
 
-		double dx_file = 1.0 / (file_size - 1);  // ??? ????? ? ????? (???????????????)
-		double dx_grid = dx;     // ??? ????? ?????? ?????
+		double dx_file = L / (file_size - 1);  // Исправлено
+		double dx_grid = dx;
 
 		for (int i = 0; i < B_size; i++) {
-			double x_grid = i * dx_grid;  // ?????????? ? ????? ?????
+			double x_grid = i * dx_grid;
 
-			// ?????????? ??????? ? file_data ??? ????????????
 			int idx = static_cast<int>(x_grid / dx_file);
-			double alpha = (x_grid - idx * dx_file) / dx_file;  // ??? ???????? ????????????
+			double alpha = (x_grid - idx * dx_file) / dx_file;
 
 			if (idx >= file_size - 1) {
-				B[i] = file_data.back();  // ??????? ?????? ?????? (x = L)
+				B[i] = file_data.back();
 			}
 			else {
-				B[i] = (1 - alpha) * file_data[idx] + alpha * file_data[idx + 1];  // ???????? ????????????
+				B[i] = (1 - alpha) * file_data[idx] + alpha * file_data[idx + 1];
 			}
 		}
 	}

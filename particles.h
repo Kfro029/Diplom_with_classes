@@ -28,22 +28,33 @@ public:
     double R_s;
     double R_theta;
 
-
     double v_t; //тепловая скорость
 
-    //int seed; // для фиксирования случайности
+    int out; //количество вылетевших частиц
 
     std::vector<double> rho;
-
 
     //генератор случ чисел
     std::mt19937_64 gen;
     std::uniform_real_distribution<double> dist;
     
-
     //вектор ионизации
     std::vector<double> ionaze;
 
+    //для интерполяции
+    int idx;
+    double alpha;
+    double x_grid;
+
+    //вектор вероятностей
+    std::vector<double> collision;
+    int x_ceil;
+    double x_loc;
+
+
+
+    //методы
+    // 
     //загрузка файла
     void loadFromFile(std::string filename);
 
@@ -68,5 +79,6 @@ public:
 
     double get_random();
 
+    double if_collis(double x_part);
 
 };

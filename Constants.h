@@ -13,6 +13,8 @@ extern double dt; // шаг по времени
 //Желаемая концентрация 1e17
 extern double n_2; // сколько частиц моделирует 1 частица
 
+extern double n_ntr; // сколько нейтронов моделирует 1 частица
+
 extern double eps_0;
 
 
@@ -29,6 +31,8 @@ extern double E_0;
 //extern double B_0;
 
 extern int N; // число частиц
+
+extern int N_ntr; // число нейтронов
 
 extern double v_t_ions; //тепловая скорость ионов
 extern double v_t_el; //тепловая скорость электронов

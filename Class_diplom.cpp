@@ -8,6 +8,7 @@
 #include <random>
 #include <cmath>
 #include "fieldB.h"
+#include "neutrons.h"
 
 
 
@@ -17,7 +18,6 @@
 
 int main() {
 
-	
 	
 	/*
 	for (std::size_t i = 0; i < X_ions.size(); i++) {
@@ -33,6 +33,7 @@ int main() {
 	Particles electrons(m_el, -q, v_t_el, 1);
 	Particles ions(m_ion, q, v_t_ions, 2);
 
+	Neutrons neutrons(m_ion, std::sqrt(3 * kB * 400 / m_ion), 3);
 	
 	//B.loadFromFile("B_values.txt");
 
@@ -40,6 +41,13 @@ int main() {
 	//заполняются координаты и скорости соответственно заданным функциям
 	ions.fill();
 	electrons.fill();
+
+	neutrons.fill();
+
+	ions.loadFromFile("ionization_ion_values.txt");
+	electrons.loadFromFile("ionization_el_values.txt");
+
+	//std::cout << (ions.ionaze.size() == num_ceil) << std::endl;
 
 	ions.fill_null_part();
 	electrons.fill_null_part();
@@ -49,12 +57,16 @@ int main() {
 	
 	Field fields;
 	fields.loadFromFile("B_values.txt");
+
+
 	fields.solve_field(electrons, ions);
 		
 	electrons.SETV(fields);
 	ions.SETV(fields);
 
 
+	std::ofstream ne1;
+	ne1.open("n_ntr.txt");
 
 	std::ofstream fi1;
 	fi1.open("fi.txt");
@@ -64,24 +76,32 @@ int main() {
 
 	std::ofstream rho_el1;
 	rho_el1.open("rho_el.txt");
+
+	std::ofstream out_el1;
+	out_el1.open("out_el.txt");
+
+	std::ofstream out_ions1;
+	out_ions1.open("out_ions.txt");
 	
 
 
 
-	std::vector<double> rho_el = electrons.rho;
-	std::vector<double> rho_ions = ions.rho;
+	//std::vector<double> rho_el = electrons.rho;
+	//std::vector<double> rho_ions = ions.rho;
 
 
 	
 	
-	for (std::size_t p = 0; p < rho_el.size(); p++) {
+	for (std::size_t p = 0; p < num_ceil; p++) {
 
-		rho_ions1 << rho_ions[p] << " ";
-		rho_el1 << rho_el[p] << " ";
+		rho_ions1 << ions.rho[p] << " ";
+		rho_el1 << electrons.rho[p] << " ";
+		ne1 << neutrons.n[p] << " ";
 
 	}
 	rho_ions1 << std::endl;
 	rho_el1 << std::endl;
+	ne1 << std::endl;
 	
 
 	electrons.fill_null_part();
@@ -100,6 +120,8 @@ int main() {
 		electrons.move(fields);
 		ions.move(fields);
 
+		neutrons.move();
+
 		//electrons.ionization_first();
 		//std::cout << rho_el.x[0] << "\t" << i << "\n";
 
@@ -109,26 +131,37 @@ int main() {
 		electrons.CIC();
 		ions.CIC();
 
-		rho_el = electrons.rho;
-		rho_ions = ions.rho;
+		neutrons.concentration();
+
+		electrons.ionization();
+		//ions.ionization();
+		neutrons.ionization();
+
+
 
 		fields.solve_field(electrons, ions);
 
-		fi = fields.fi;
+		//fi = fields.fi;
 
-		
-		for (std::size_t p = 0; p < rho_el.size(); p++) {
+		if (true) {
+			out_el1 << electrons.out * 1.0 / i << std::endl;
+			out_ions1 << (ions.out * 1.0) / i << std::endl;
+			
+			for (std::size_t p = 0; p < num_ceil; p++) {
 
-			rho_ions1 << rho_ions[p] << " ";
-			rho_el1 << rho_el[p] << " ";
-			fi1 << fi[p] << " ";
+				rho_ions1 << ions.rho[p] << " ";
+				rho_el1 << electrons.rho[p] << " ";
+				fi1 << fields.fi[p] << " ";
+				ne1 << neutrons.n[p] << " ";
 
+			}
+			rho_ions1 << std::endl;
+			rho_el1 << std::endl;
+			fi1 << std::endl;
+			ne1 << std::endl;
+			
+			// break;
 		}
-		rho_ions1 << std::endl;
-		rho_el1 << std::endl;
-		fi1 << std::endl;
-		// break;
-		
 		
 	}
 }
