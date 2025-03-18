@@ -4,6 +4,8 @@
 #include <vector>
 #include "Constants.h"
 #include <random>
+#include "fields.h"
+#include <fstream>
 
 class Field;
 
@@ -30,9 +32,13 @@ public:
 
     double v_t; //тепловая скорость
 
-    int out; //количество вылетевших частиц
+    int out_an; //количество вылетевших частиц с анода
+    int out_kat; //количество вылетевших частиц с катода
 
     std::vector<double> rho;
+
+    int fly;
+    std::vector<int> divergention;
 
     //генератор случ чисел
     std::mt19937_64 gen;
@@ -62,7 +68,7 @@ public:
 
     Particles(double m, double q, double v_t, int seed); // Конструктор
 
-    void fill(); // заполнение 
+    void fill(Field& fieldE); // заполнение 
 
     void move(Field& fieldE); // Движение
     void SETV(Field& fieldE); //начальное даижение на -t/2
@@ -75,6 +81,7 @@ public:
 
     void ionization_first();
     void ionization();
+    void emission_ionization(int out);
     // std::vector<double> give_x(); // верунть координаты, например, для расчета полей
 
     double get_random();

@@ -1,5 +1,4 @@
 #include "Constants.h"
-#include<cmath>
 
 double L = 0.04; // размер пространства
 double eps = 0 * L * 1.0e-16; // сколько частица не долетает до правой стенки
@@ -7,8 +6,8 @@ double eps = 0 * L * 1.0e-16; // сколько частица не долетает до правой стенки
 int num_ceil = 100; // число ячеек
 double dx = L / (num_ceil * 1.0 - 1.0); // шаг по сетке
 
-double T = 3.5e-7; // всего времени
-double dt = 3.5e-10; // шаг по времени
+double T = 3.5e-10; // всего времени
+double dt = 3.5e-13; // шаг по времени
 
 //Желаемая концентрация 1e17
 double n_2 = 4e11; // сколько частиц моделирует 1 частица
@@ -30,7 +29,7 @@ int k = 8;
 double E_0 = 1.0 * pow(10, -12);
 //double B_0 = 1.0;
 
-int N = num_ceil * 1; // число частиц
+int N = num_ceil * 100; // число частиц
 
 
 int N_ntr = num_ceil * 1;
@@ -51,3 +50,11 @@ double T_eV = 10; // эВ
 
 double v_t_el = std::sqrt(3 * kB * T_eV * eV_to_K / m_el);
 double v_t_ions = std::sqrt(3 * kB * T_eV * eV_to_K / m_ion);
+
+
+double BPHI0 = 0.00215;
+double BPHIWDTH = 5.e-7;
+
+double emission = 0.95 * L;
+int ceil_emission = emission / dx;
+double loc_emission = fmod(emission, dx);

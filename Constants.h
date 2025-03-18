@@ -4,7 +4,7 @@
 extern double L; // размер пространства
 extern double eps; // сколько частица не долетает до правой стенки
 
-extern int num_ceil; // число ячеек
+extern int num_ceil; // число ячеек + 1
 extern double dx; // шаг по сетке
 
 extern double T; // всего времени
@@ -47,3 +47,10 @@ extern double T_eV;
 
 extern double kB;   // Постоянная Больцмана (Дж/К)
 extern double eV_to_K;
+
+extern double BPHI0;
+extern double BPHIWDTH;
+
+extern double emission;
+extern int ceil_emission;
+extern double loc_emission;

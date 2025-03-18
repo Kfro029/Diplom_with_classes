@@ -1,8 +1,4 @@
 #include "fields.h"
-#include "cmath"
-#include "particles.h"
-#include <fstream>
-
 
 // –еализаци€ конструктора
 Field::Field()
@@ -10,7 +6,6 @@ Field::Field()
 	p(num_ceil - 2, 0.0), q(num_ceil - 2, 0.0),
 	fi(num_ceil, 0.0), rho(num_ceil, 0.0), rho_el(num_ceil, 0.0), rho_ions(num_ceil, 0.0),
 	B(num_ceil, 0.0)
-	
 {}
 
 // –еализаци€ методов
@@ -82,15 +77,23 @@ void Field::solve_field(Particles& el, Particles& ions) {
 
 	//добавим разность потенциалов на катоде и аноде:
 	
+	
+
 	for (std::size_t i = 0; i < fi.size(); i++) {
-		fi[i] += 100.0 + 100.0 * (i * 1.0) / fi.size();
+		fi[i] += 100.0 + 200.0 * (i * 1.0) / fi.size();
 	}
 	
+	fi_em = (fi[ceil_emission] * (dx - loc_emission) + fi[ceil_emission + 1] * loc_emission) / dx;
+
+	for (std::size_t i = 0; i < fi.size(); i++) {
+		fi[i] -= fi_em / emission * (i * dx);
+	}
 
 	calc_E();
 }
 
 void Field::loadFromFile(std::string filename) {
+	//магнитное поле задаетс€ в √с, а мы потом переводим в “л
 	std::ifstream file(filename);
 	if (!file) {
 		std::cerr << "Don't find field B in file: " << filename << std::endl;
@@ -129,6 +132,10 @@ void Field::loadFromFile(std::string filename) {
 				B[i] = (1 - alpha) * file_data[idx] + alpha * file_data[idx + 1];
 			}
 		}
+	}
+	
+	for (std::size_t i = 0; i < B.size(); i++) {
+		B[i] = B[i] * 1. / 100.;
 	}
 }
 

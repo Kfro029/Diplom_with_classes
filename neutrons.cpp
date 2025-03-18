@@ -1,10 +1,4 @@
 #include "neutrons.h"
-#include <random>
-#include <cmath>
-#include <fstream>
-#include "Constants.h"
-
-
 
 // Реализация конструктора
 Neutrons::Neutrons(double m, double v_t, int seed)

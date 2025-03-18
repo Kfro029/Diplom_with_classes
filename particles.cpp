@@ -1,9 +1,4 @@
 #include "particles.h" 
-#include "fields.h"
-// #include "fieldB.h"
-#include <random>
-#include <cmath>
-#include <fstream>
 
 // –еализаци€ конструктора
 Particles::Particles(double m, double q, double v_t, int seed)
@@ -11,9 +6,12 @@ Particles::Particles(double m, double q, double v_t, int seed)
 	rho(num_ceil, 0.0), 
 	temp_t(0.0), temp_s(0.0), temp_c(0.0), v_t(v_t),
 	gen(seed), dist(0.0, 1.0),
-	out(0),
+	out_kat(0),
+	out_an(0),
 	ionaze(num_ceil, 0.0),
-	collision(num_ceil, 0.05)
+	collision(num_ceil, 0.05),
+	fly(0),
+	divergention(num_ceil, 0)
 {
 	x.resize(N);
 	v_x.resize(N);
@@ -38,7 +36,7 @@ void Particles::fill_null_part() {
 
 //одно из граничных условий
 void Particles::swap_and_delete(int number) {
-	out++;
+	
 
 	if (x.empty() || v_x.empty() || v_y.empty()) return;
 
@@ -56,9 +54,12 @@ void Particles::swap_and_delete(int number) {
 
 // движение
 void Particles::move(Field& fieldE) {
+	std::fill(divergention.begin(), divergention.end(), 0);
+	out_kat = 0;
+	out_an = 0;
 	
 	for (int i = x.size() - 1; i >= 0; i--) {
-
+		x_ceil = x[i] / dx;
 		//расчет скорости на dt/2
 		v_x[i] += fieldE.field_by_x(x[i]) * q / m * (dt / 2.0);
 		
@@ -80,12 +81,29 @@ void Particles::move(Field& fieldE) {
 		
 		
 		// √” вылет и все
-		if (this->x[i] >= L || this->x[i] < 0) {
+		//подсчет вылета дл€ разных частиц
+		if (floor(x[i] / dx) > x_ceil) {
+			//divergention[x_ceil]--;
+			divergention[x_ceil + 1]++;
+		}
+		if (floor(x[i] / dx) < x_ceil) {
+			//divergention[x_ceil]--;
+			divergention[x_ceil]--;
+		}
+
+		if (x[i] < 0) {
 			swap_and_delete(i);
+			out_an++;
 			continue;
 			//i--;
 		}
-	
+
+		if (x[i] >= L) {
+			swap_and_delete(i);
+			out_kat++;
+			continue;
+			//i--;
+		}
 		/*
 		// граничные услови€: жестка€ стенка
 		if (x[i] >= L - eps) {
@@ -142,6 +160,7 @@ void Particles::CIC() {
 // начальна€ подвижка
 void Particles::SETV(Field& fieldE) {
 	for (int i = x.size() - 1; i >= 0; i--) {
+		x_ceil = x[i] / dx;
 
 		//расчет скорости на dt/2
 		v_x[i] += fieldE.field_by_x(x[i]) * (-q/ 2.) / m * (dt / 2.0);
@@ -164,8 +183,25 @@ void Particles::SETV(Field& fieldE) {
 
 		
 		// √” вылет и все
-		if (x[i] >= L || x[i] < 0) {
+		if (floor(x[i] / dx) > x_ceil) {
+			//divergention[x_ceil]--;
+			divergention[x_ceil + 1]++;
+		}
+		if (floor(x[i] / dx) < x_ceil) {
+			//divergention[x_ceil]--;
+			divergention[x_ceil]--;
+		}
+
+		if (x[i] < 0) {
 			swap_and_delete(i);
+			out_an++;
+			continue;
+			//i--;
+		}
+
+		if (x[i] >= L) {
+			swap_and_delete(i);
+			out_kat++;
 			continue;
 			//i--;
 		}
@@ -214,10 +250,35 @@ void Particles::ionization_first() {
 	v_y.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
 };
 
-// начальное заполнение частицами
-void Particles::fill() {
+
+//по€вление нескольких частиц в эмиссионной плоскости
+void Particles::emission_ionization(int out) {
+	for (int i = 0; i < out; i++) {
+		x.push_back(emission);
+
+		R_s = get_random();
+		R_theta = get_random();
+
+
+		v_x.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta));
+		v_y.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
+	}
+};
+
+// начальное заполнение частицами и массива столкновени€
+void Particles::fill(Field& fieldE) {
 	for (std::size_t i = 0; i < N; i++) {
 		ionization_first();
+	}
+
+	//заполнение массива столкновений
+	for (std::size_t i = 0; i < num_ceil; i++) {
+		if (fieldE.B[i] > BPHI0) {
+			collision[i] = q * fieldE.B[i] / m * (1. - 0.997 * exp(-((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH / 7.) * ((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH / 7.)));
+		}
+		else {
+			collision[i] = q * fieldE.B[i] / m * (1. - 0.997 * exp(-((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH) * ((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH)));
+		}
 	}
 }
 

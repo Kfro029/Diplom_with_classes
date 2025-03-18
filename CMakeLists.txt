@@ -9,10 +9,13 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
+
+set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+
 project ("Class_diplom")
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (Class_diplom "Class_diplom.cpp"  "fields.h" "fields.cpp" "particles.h" "particles.cpp" "Constants.h" "Constants.cpp" "fieldB.h" "fieldB.cpp" "neutrons.h" "neutrons.cpp")
+add_executable (Class_diplom "Class_diplom.cpp"  "fields.h" "fields.cpp" "particles.h" "particles.cpp" "Constants.h" "Constants.cpp"   "neutrons.h" "neutrons.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Class_diplom PROPERTY CXX_STANDARD 20)

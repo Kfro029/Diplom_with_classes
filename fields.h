@@ -2,7 +2,10 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
-// #include "Constants.h"
+#include "cmath"
+#include <fstream>
+#include "Constants.h"
+#include "particles.h"
 
 class Particles;
 
@@ -21,6 +24,8 @@ public:
     std::vector<double> rho_ions; // плотность заряда протонов
     
     std::vector<double> B; // магнитное поле
+    
+    double fi_em;
 
     Field(); // Конструктор
 
