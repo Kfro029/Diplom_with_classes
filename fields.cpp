@@ -80,7 +80,7 @@ void Field::solve_field(Particles& el, Particles& ions) {
 	
 
 	for (std::size_t i = 0; i < fi.size(); i++) {
-		fi[i] += 100.0 + 200.0 * (i * 1.0) / fi.size();
+		fi[i] += 100.0 + 200.0 * (fi.size() - i * 1.0) / fi.size();
 	}
 	
 	fi_em = (fi[ceil_emission] * (dx - loc_emission) + fi[ceil_emission + 1] * loc_emission) / dx;

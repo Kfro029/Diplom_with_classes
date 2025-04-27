@@ -121,7 +121,7 @@ int main() {
 		//neutrons.concentration();
 
 		electrons.ionization();
-		//ions.ionization();
+		ions.ionization();
 		
 		//neutrons.ionization();
 
@@ -131,7 +131,7 @@ int main() {
 
 		//fi = fields.fi;
 
-		if (true) {
+		if (i % 10 == 0) {
 			
 			
 			for (std::size_t p = 0; p < num_ceil; p++) {

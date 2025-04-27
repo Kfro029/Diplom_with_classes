@@ -13,9 +13,9 @@ Particles::Particles(double m, double q, double v_t, int seed)
 	fly(0),
 	divergention(num_ceil, 0)
 {
-	x.resize(N);
-	v_x.resize(N);
-	v_y.resize(N);
+	x.reserve(N);
+	v_x.reserve(N);
+	v_y.reserve(N);
 	//std::cout << "q in constructor = " << q << std::endl;
 }
 
@@ -351,5 +351,9 @@ void Particles::loadFromFile(std::string filename) {
 				ionaze[i] = (1 - alpha) * file_data[idx] + alpha * file_data[idx + 1];
 			}
 		}
+	}
+
+	for (std::size_t i = 0; i < ionaze.size(); i++) {
+		ionaze[i] = ionaze[i] / n_2 / abs(q) * dt;
 	}
 }
