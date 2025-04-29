@@ -9,6 +9,8 @@
 #include <cmath>
 #include "neutrons.h"
 
+#include <algorithm>
+
 
 int main() {
 
@@ -68,6 +70,10 @@ int main() {
 	std::ofstream out_ions1;
 	out_ions1.open("out_ions.txt");
 
+	std::ofstream coll_el1;
+	coll_el1.open("coll_el.txt");
+
+
 	
 
 
@@ -102,6 +108,26 @@ int main() {
 
 	std::vector<double> fi = fields.fi;
 
+
+	double coll_want = 0.;
+	for (std::size_t i = 0; i < num_ceil; i++) {
+		coll_want += electrons.collision[i];
+	}
+	double max_collis = 0;
+	for (std::size_t i = 0; i < num_ceil; i++) {
+		if (max_collis < electrons.collision[i]){
+			max_collis = electrons.collision[i];
+		}
+	}
+	/*
+	for (std::size_t i = 0; i < num_ceil; i++) {
+		std::cout << electrons.collision[i] << " ";
+	}
+	*/
+	std::cout << "max collis = " << max_collis << std::endl;
+	 
+	//std::cout << "coll_want = "  << coll_want << std::endl;
+
 	for (int i = 1; i <= (T / dt); i++) {
 		electrons.move(fields);
 		ions.move(fields);
@@ -131,8 +157,9 @@ int main() {
 
 		//fi = fields.fi;
 
-		if (i % 10 == 0) {
+		if (i % 1 == 0) {
 			
+			coll_el1 << electrons.coll << std::endl;
 			
 			for (std::size_t p = 0; p < num_ceil; p++) {
 				out_el1 << electrons.divergention[p] << " ";

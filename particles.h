@@ -37,6 +37,10 @@ public:
 
     std::vector<double> rho;
 
+
+    double theor_coll;
+    double coll; //количество столкновений за шаг
+
     int fly;
     std::vector<int> divergention;
 
@@ -52,7 +56,7 @@ public:
     double alpha;
     double x_grid;
 
-    //вектор вероятностей
+    //вектор вероятностей столкновений
     std::vector<double> collision;
     int x_ceil;
     double x_loc;

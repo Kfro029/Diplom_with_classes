@@ -11,7 +11,9 @@ Particles::Particles(double m, double q, double v_t, int seed)
 	ionaze(num_ceil, 0.0),
 	collision(num_ceil, 0.05),
 	fly(0),
-	divergention(num_ceil, 0)
+	divergention(num_ceil, 0),
+	coll(0),
+	theor_coll(0.)
 {
 	x.reserve(N);
 	v_x.reserve(N);
@@ -57,6 +59,8 @@ void Particles::move(Field& fieldE) {
 	std::fill(divergention.begin(), divergention.end(), 0);
 	out_kat = 0;
 	out_an = 0;
+	coll = 0;
+	theor_coll = 0.;
 	
 	for (int i = x.size() - 1; i >= 0; i--) {
 		x_ceil = x[i] / dx;
@@ -115,17 +119,22 @@ void Particles::move(Field& fieldE) {
 			v_x[i] *= (-1);
 		}
 		*/
-
 		
+		theor_coll += if_collis(x[i]);
 		if (get_random() < if_collis(x[i])) {
 			R_s = get_random();
 			R_theta = get_random();
 
 			v_x[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta));
 			v_y[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
+
+			coll++;
 		}
+
+		
 		
 	}
+	
 
 	// fill_null_part();
 	// field.fill_null_field();
@@ -274,12 +283,17 @@ void Particles::fill(Field& fieldE) {
 	//заполнение массива столкновений
 	for (std::size_t i = 0; i < num_ceil; i++) {
 		if (fieldE.B[i] > BPHI0) {
-			collision[i] = q * fieldE.B[i] / m * (1. - 0.997 * exp(-((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH / 7.) * ((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH / 7.)));
+			collision[i] = abs(q) * fieldE.B[i] / m * (1. - 0.997 * exp(-((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH / 7.) * ((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH / 7.)));
 		}
 		else {
-			collision[i] = q * fieldE.B[i] / m * (1. - 0.997 * exp(-((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH) * ((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH)));
+			collision[i] = abs(q) * fieldE.B[i] / m * (1. - 0.997 * exp(-((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH) * ((fieldE.B[i] - BPHI0) * (fieldE.B[i] - BPHI0) / BPHIWDTH)));
 		}
 	}
+
+	for (std::size_t i = 0; i < num_ceil; i++) {
+		collision[i] = 1 - exp(-collision[i] * dt);
+	}
+
 }
 
 // ионизация
