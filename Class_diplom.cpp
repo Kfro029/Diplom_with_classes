@@ -178,6 +178,8 @@ int main() {
 			fi1 << std::endl;
 			ne1 << std::endl;
 			
+			ions.zeros();
+			electrons.zeros();
 			// break;
 		}
 		

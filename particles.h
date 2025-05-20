@@ -74,6 +74,7 @@ public:
 
     void fill(Field& fieldE); // заполнение 
 
+    void zeros(); //обнуление дивергенции тока и счетчика столкновений
     void move(Field& fieldE); // Движение
     void SETV(Field& fieldE); //начальное даижение на -t/2
     void CIC(); //расчет плотности заряда

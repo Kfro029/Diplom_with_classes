@@ -38,11 +38,11 @@ void Field::fill_null_field() {
 
 void Field::solve_field(Particles& el, Particles& ions) {
 
-	rho_el = el.rho;
-	rho_ions = ions.rho;
+	//rho_el = el.rho;
+	//rho_ions = ions.rho;
 
 	for (std::size_t i = 0; i < rho.size(); i++) {
-		rho[i] = rho_el[i] + rho_ions[i];
+		rho[i] = el.rho[i] + ions.rho[i];
 	}
 
 	//ÃÓ
@@ -80,15 +80,16 @@ void Field::solve_field(Particles& el, Particles& ions) {
 	
 
 	for (std::size_t i = 0; i < fi.size(); i++) {
-		fi[i] += 100.0 + 200.0 * (fi.size() - i * 1.0) / fi.size();
+		fi[i] = 200.0 * (fi.size() - i * 1.0) / fi.size();
 	}
 	
+	/*
 	fi_em = (fi[ceil_emission] * (dx - loc_emission) + fi[ceil_emission + 1] * loc_emission) / dx;
 
 	for (std::size_t i = 0; i < fi.size(); i++) {
 		fi[i] -= fi_em / emission * (i * dx);
 	}
-
+	*/
 	calc_E();
 }
 
@@ -135,7 +136,7 @@ void Field::loadFromFile(std::string filename) {
 	}
 	
 	for (std::size_t i = 0; i < B.size(); i++) {
-		B[i] = B[i] * 1. / 100.;
+		B[i] = B[i] * 1. / 10000.;
 	}
 }
 

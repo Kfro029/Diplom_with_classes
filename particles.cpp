@@ -9,7 +9,7 @@ Particles::Particles(double m, double q, double v_t, int seed)
 	out_kat(0),
 	out_an(0),
 	ionaze(num_ceil, 0.0),
-	collision(num_ceil, 0.05),
+	collision(num_ceil, 0.00),
 	fly(0),
 	divergention(num_ceil, 0),
 	coll(0),
@@ -54,13 +54,17 @@ void Particles::swap_and_delete(int number) {
 };
 
 
-// движение
-void Particles::move(Field& fieldE) {
+void Particles::zeros() {
 	std::fill(divergention.begin(), divergention.end(), 0);
 	out_kat = 0;
 	out_an = 0;
 	coll = 0;
 	theor_coll = 0.;
+}
+
+// движение
+void Particles::move(Field& fieldE) {
+	
 	
 	for (int i = x.size() - 1; i >= 0; i--) {
 		x_ceil = x[i] / dx;
@@ -86,11 +90,11 @@ void Particles::move(Field& fieldE) {
 		
 		// ГУ вылет и все
 		//подсчет вылета для разных частиц
-		if (floor(x[i] / dx) > x_ceil) {
+		if ((x[i] / dx) > x_ceil) {
 			//divergention[x_ceil]--;
 			divergention[x_ceil + 1]++;
 		}
-		if (floor(x[i] / dx) < x_ceil) {
+		if ((x[i] / dx) < x_ceil) {
 			//divergention[x_ceil]--;
 			divergention[x_ceil]--;
 		}
