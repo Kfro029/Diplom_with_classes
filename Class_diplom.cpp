@@ -157,7 +157,8 @@ int main() {
 
 		//fi = fields.fi;
 
-		if (i % 1 == 0) {
+		if (i % 1000 == 0) {
+			std::cout << "writing i = " << i << std::endl;
 			
 			coll_el1 << electrons.coll << std::endl;
 			

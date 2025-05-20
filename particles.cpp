@@ -120,6 +120,9 @@ void Particles::move(Field& fieldE) {
 		}
 		*/
 		
+
+		//СТОЛКНОВЕНИЯ
+		/*
 		theor_coll += if_collis(x[i]);
 		if (get_random() < if_collis(x[i])) {
 			R_s = get_random();
@@ -130,7 +133,7 @@ void Particles::move(Field& fieldE) {
 
 			coll++;
 		}
-
+		*/
 		
 		
 	}
@@ -228,8 +231,8 @@ void Particles::SETV(Field& fieldE) {
 		}
 		*/
 
-
-		
+		//Столкновения
+		/*
 		if (get_random() < if_collis(x[i])) {
 			R_s = get_random();
 			R_theta = get_random();
@@ -237,7 +240,7 @@ void Particles::SETV(Field& fieldE) {
 			v_x[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta));
 			v_y[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
 		}
-		
+		*/
 	}
 }
 
