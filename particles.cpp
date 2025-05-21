@@ -73,7 +73,7 @@ void Particles::move(Field& fieldE) {
 		
 
 		//расчет поворота частицы
-		double temp_t = q * 1.0 / m * dt / 2;
+		double temp_t = q * fieldE.b_by_x(x[i]) / m * dt / 2;
 		double temp_s = 2 * temp_t / (1 + temp_t * temp_t);
 		double temp_c = (1 - temp_t * temp_t) / (1 + temp_t * temp_t);
 
@@ -183,7 +183,7 @@ void Particles::SETV(Field& fieldE) {
 
 
 		//расчет поворота частицы
-		double temp_t = q * 1.0 / m * dt / 2;
+		double temp_t = q * fieldE.b_by_x(x[i]) / m * dt / 2;
 		double temp_s = 2 * temp_t / (1 + temp_t * temp_t);
 		double temp_c = (1 - temp_t * temp_t) / (1 + temp_t * temp_t);
 
