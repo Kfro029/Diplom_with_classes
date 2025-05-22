@@ -8,6 +8,7 @@ double dx = L / (num_ceil * 1.0 - 1.0); // шаг по сетке
 
 double T = 3.5e-6; // всего времени
 double dt = 3.5e-12; // шаг по времени
+int shot = 1000;
 
 //Желаемая концентрация 1e17
 double n_2 = 4e11; // сколько частиц моделирует 1 частица
@@ -29,7 +30,7 @@ int k = 8;
 double E_0 = 1.0 * pow(10, -12);
 //double B_0 = 1.0;
 
-int N = num_ceil * 5; // число частиц
+int N = num_ceil * 100; // число частиц
 
 
 int N_ntr = num_ceil * 1;

@@ -86,8 +86,8 @@ int main() {
 	
 	for (std::size_t p = 0; p < num_ceil; p++) {
 
-		rho_ions1 << ions.rho[p] << " ";
-		rho_el1 << electrons.rho[p] << " ";
+		rho_ions1 << ions.rho[p] * denom << " ";
+		rho_el1 << electrons.rho[p] * denom << " ";
 		//ne1 << neutrons.n[p] << " ";
 
 	}
@@ -114,11 +114,8 @@ int main() {
 		coll_want += electrons.collision[i];
 	}
 	double max_collis = 0;
-	for (std::size_t i = 0; i < num_ceil; i++) {
-		if (max_collis < electrons.collision[i]){
-			max_collis = electrons.collision[i];
-		}
-	}
+	
+
 	/*
 	for (std::size_t i = 0; i < num_ceil; i++) {
 		std::cout << electrons.collision[i] << " ";
@@ -131,7 +128,9 @@ int main() {
 	for (int i = 1; i <= (T / dt); i++) {
 		electrons.move(fields);
 		ions.move(fields);
-		electrons.emission_ionization(electrons.out_an - ions.out_kat);
+		
+		
+		//electrons.emission_ionization(electrons.out_an - ions.out_kat);
 
 		//neutrons.move();
 
@@ -146,6 +145,8 @@ int main() {
 
 		//neutrons.concentration();
 
+
+		//ПОТОМ ДОБАВИТЬ
 		electrons.ionization();
 		ions.ionization();
 		
@@ -157,16 +158,25 @@ int main() {
 
 		//fi = fields.fi;
 
-		if (i % 1000 == 0) {
+		if (i % shot == 0) {
+
+			std::ofstream coll_el1("coll_el.txt", std::ios::app);
+			std::ofstream out_el1("out_el.txt", std::ios::app);
+			std::ofstream out_ions1("out_ions.txt", std::ios::app);
+			std::ofstream rho_ions1("rho_ions.txt", std::ios::app);
+			std::ofstream rho_el1("rho_el.txt", std::ios::app);
+			std::ofstream fi1("fi.txt", std::ios::app);
+			std::ofstream ne1("n_ntr.txt", std::ios::app);
+
 			std::cout << "writing i = " << i << std::endl;
 			
 			coll_el1 << electrons.coll << std::endl;
 			
 			for (std::size_t p = 0; p < num_ceil; p++) {
-				out_el1 << electrons.divergention[p] << " ";
-				out_ions1 << ions.divergention[p] << " ";
-				rho_ions1 << ions.rho[p] << " ";
-				rho_el1 << electrons.rho[p] << " ";
+				out_el1 << electrons.divergention[p] * n_2 * dt * shot * q << " ";
+				out_ions1 << ions.divergention[p] * n_2 * dt * shot * q << " ";
+				rho_ions1 << ions.rho[p] * denom / dx << " ";
+				rho_el1 << electrons.rho[p] * denom / dx << " ";
 				fi1 << fields.fi[p] << " ";
 				//ne1 << neutrons.n[p] << " ";
 

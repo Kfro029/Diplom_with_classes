@@ -56,15 +56,14 @@ void Particles::swap_and_delete(int number) {
 
 void Particles::zeros() {
 	std::fill(divergention.begin(), divergention.end(), 0);
-	out_kat = 0;
-	out_an = 0;
 	coll = 0;
 	theor_coll = 0.;
 }
 
 // движение
 void Particles::move(Field& fieldE) {
-	
+	out_kat = 0;
+	out_an = 0;
 	
 	for (int i = x.size() - 1; i >= 0; i--) {
 		x_ceil = x[i] / dx;
@@ -193,47 +192,7 @@ void Particles::SETV(Field& fieldE) {
 
 		//еще подвинулись на dt/2
 		v_x[i] += fieldE.field_by_x(x[i]) * (-q/2.0) / m * (dt / 2.0);
-		x[i] += v_x[i] * dt;
-
-
-
 		
-		// ГУ вылет и все
-		if (floor(x[i] / dx) > x_ceil) {
-			//divergention[x_ceil]--;
-			divergention[x_ceil + 1]++;
-		}
-		if (floor(x[i] / dx) < x_ceil) {
-			//divergention[x_ceil]--;
-			divergention[x_ceil]--;
-		}
-
-		if (x[i] < 0) {
-			swap_and_delete(i);
-			out_an++;
-			continue;
-			//i--;
-		}
-
-		if (x[i] >= L) {
-			swap_and_delete(i);
-			out_kat++;
-			continue;
-			//i--;
-		}
-		
-
-		/*
-		// граничные условия: жесткая стенка
-		if (x[i] >= L - eps) {
-			x[i] = (L - eps) - (x[i] - (L - eps));
-			v_x[i] *= (-1);
-		}
-		if (x[i] - eps <= 0) {
-			x[i] *= (-1);
-			v_x[i] *= (-1);
-		}
-		*/
 
 		//Столкновения
 		/*
