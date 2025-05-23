@@ -72,7 +72,7 @@
               "RelativeDocumentMoniker": "Class_diplom.cpp",
               "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\Class_diplom.cpp",
               "RelativeToolTip": "Class_diplom.cpp",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAABsAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAKQAAAAAAAAAAAAAALAAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-08T13:07:22.037Z",
               "IsPinned": true,
@@ -90,7 +90,7 @@
               "RelativeDocumentMoniker": "particles.cpp",
               "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\particles.cpp",
               "RelativeToolTip": "particles.cpp",
-              "ViewState": "AgIAAMYAAAAAAAAAAAAAAPQAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAJ8AAAAAAAAAAAAAAKIAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-08T13:19:55.164Z",
               "EditorCaption": ""
@@ -103,7 +103,7 @@
               "RelativeDocumentMoniker": "Constants.cpp",
               "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\Constants.cpp",
               "RelativeToolTip": "Constants.cpp",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAUAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-08T16:09:45.101Z",
               "EditorCaption": ""
@@ -128,7 +128,7 @@
               "RelativeDocumentMoniker": "fields.cpp",
               "ToolTip": "C:\\Users\\KF36F\\OneDrive\\Desktop\\MIPT\\\u0414\u0438\u043F\u043B\u043E\u043C\\Class_diplom\\fields.cpp",
               "RelativeToolTip": "fields.cpp",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAAACkAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-08T13:16:32.099Z",
               "EditorCaption": ""
@@ -167,8 +167,7 @@
               "RelativeToolTip": "neutrons.cpp",
               "ViewState": "AgIAAHQAAAAAAAAAAAAAAA8AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-24T10:53:55.03Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-24T10:53:55.03Z"
             },
             {
               "$type": "Document",

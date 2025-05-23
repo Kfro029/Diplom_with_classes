@@ -159,8 +159,8 @@ void Particles::CIC() {
 		//std::cout << "x[i]\t" << x[i] << "\ti\t" << i;
 		//std::cout << "\t left \t" << ceil_left << "\tright \t " << ceil_right << "\n";
 		
-		rho[ceil_left] += q * (dx - x_loc);
-		rho[ceil_right] += q * x_loc;
+		rho[ceil_left] += q * (dx - x_loc) / dx;
+		rho[ceil_right] += q * x_loc / dx;
 		
 	}
 	//std::cout << rho[1];

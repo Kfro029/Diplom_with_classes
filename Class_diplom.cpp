@@ -86,8 +86,8 @@ int main() {
 	
 	for (std::size_t p = 0; p < num_ceil; p++) {
 
-		rho_ions1 << ions.rho[p] * denom << " ";
-		rho_el1 << electrons.rho[p] * denom << " ";
+		rho_ions1 << ions.rho[p] * denom / dx << " ";
+		rho_el1 << electrons.rho[p] * denom / dx << " ";
 		//ne1 << neutrons.n[p] << " ";
 
 	}
@@ -173,8 +173,8 @@ int main() {
 			coll_el1 << electrons.coll << std::endl;
 			
 			for (std::size_t p = 0; p < num_ceil; p++) {
-				out_el1 << electrons.divergention[p] * n_2 * dt * shot * q << " ";
-				out_ions1 << ions.divergention[p] * n_2 * dt * shot * q << " ";
+				out_el1 << electrons.divergention[p] * n_2 / (dt * shot) * q << " ";
+				out_ions1 << ions.divergention[p] * n_2 / (dt * shot) * q << " ";
 				rho_ions1 << ions.rho[p] * denom / dx << " ";
 				rho_el1 << electrons.rho[p] * denom / dx << " ";
 				fi1 << fields.fi[p] << " ";
