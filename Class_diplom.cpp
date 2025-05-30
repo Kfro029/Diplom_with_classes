@@ -12,6 +12,73 @@
 #include <algorithm>
 
 
+double el_x = 0;
+void ionization(Particles& ions, Particles& el) {
+
+
+	for (std::size_t i = 0; i < el.ionaze.size(); i++) {
+
+		// целая часть ионизации в ячейке
+		for (int j = 0; j < int(el.ionaze[i]); j++) {
+			el_x = el.get_random();
+			el.x.push_back(((i * 1.0) + el_x) * dx);
+			ions.x.push_back(((i * 1.0) + el_x) * dx);
+
+
+			el.R_s = el.get_random();
+			el.R_theta = el.get_random();
+
+			ions.R_s = ions.get_random();
+			ions.R_theta = ions.get_random();
+
+
+			el.v_x.push_back(el.v_t * std::sqrt(-2 * std::log(el.R_s)) * std::cos(2 * 3.1416 * el.R_theta));
+			el.v_y.push_back(el.v_t * std::sqrt(-2 * std::log(el.R_s)) * std::sin(2 * 3.1416 * el.R_theta));
+
+
+			ions.v_x.push_back(ions.v_t * std::sqrt(-2 * std::log(ions.R_s)) * std::cos(2 * 3.1416 * ions.R_theta));
+			ions.v_y.push_back(ions.v_t * std::sqrt(-2 * std::log(ions.R_s)) * std::sin(2 * 3.1416 * ions.R_theta));
+			
+			
+			//std::cout << "born ";
+			//el.born++;
+			//ions.born++;
+		}
+		//дробная
+		if (el.get_random() < fmod(el.ionaze[i], 1.0)) {
+			
+			el_x = el.get_random();
+			el.x.push_back((i + el_x) * dx);
+			ions.x.push_back((i + el_x) * dx);
+
+
+			el.R_s = el.get_random();
+			el.R_theta = el.get_random();
+
+			ions.R_s = ions.get_random();
+			ions.R_theta = ions.get_random();
+
+
+			el.v_x.push_back(el.v_t * std::sqrt(-2 * std::log(el.R_s)) * std::cos(2 * 3.1416 * el.R_theta));
+			el.v_y.push_back(el.v_t * std::sqrt(-2 * std::log(el.R_s)) * std::sin(2 * 3.1416 * el.R_theta));
+
+
+			ions.v_x.push_back(ions.v_t * std::sqrt(-2 * std::log(ions.R_s)) * std::cos(2 * 3.1416 * ions.R_theta));
+			ions.v_y.push_back(ions.v_t * std::sqrt(-2 * std::log(ions.R_s)) * std::sin(2 * 3.1416 * ions.R_theta));
+			
+			
+			//std::cout << "born ";
+			//el.born++;
+			//ions.born++;
+		}
+
+
+	}
+
+}
+
+
+
 int main() {
 
 	Field fields;
@@ -30,8 +97,10 @@ int main() {
 
 	//neutrons.fill();
 
-	ions.loadFromFile("ionization_ion_values.txt");
-	electrons.loadFromFile("ionization_el_values.txt");
+	//ions.loadFromFile("ionization_ion_values.txt");
+	electrons.loadFromFile("ionization_values.txt");
+
+
 
 	//std::cout << (ions.ionaze.size() == num_ceil) << std::endl;
 
@@ -49,7 +118,6 @@ int main() {
 	electrons.SETV(fields);
 	ions.SETV(fields);
 
-	electrons.emission_ionization(electrons.out_an - ions.out_kat);
 
 
 	std::ofstream ne1;
@@ -73,6 +141,12 @@ int main() {
 	std::ofstream coll_el1;
 	coll_el1.open("coll_el.txt");
 
+	std::ofstream born_el1;
+	born_el1.open("born_el.txt");
+
+	std::ofstream born_ions1;
+	born_ions1.open("born_ions.txt");
+
 
 	
 
@@ -80,14 +154,20 @@ int main() {
 
 	//std::vector<double> rho_el = electrons.rho;
 	//std::vector<double> rho_ions = ions.rho;
+	for (std::size_t p = 0; p < electrons.ionaze.size(); p++) {
 
+		//rho_ions1 << ions.rho[p] / denom << " ";
+		std::cout << electrons.ionaze[p] << " ";
+		//ne1 << neutrons.n[p] << " ";
+
+	}
 
 	
 	
 	for (std::size_t p = 0; p < num_ceil; p++) {
 
-		rho_ions1 << ions.rho[p] * denom / dx << " ";
-		rho_el1 << electrons.rho[p] * denom / dx << " ";
+		rho_ions1 << ions.rho[p] / denom << " ";
+		rho_el1 << electrons.rho[p] / denom << " ";
 		//ne1 << neutrons.n[p] << " ";
 
 	}
@@ -108,29 +188,14 @@ int main() {
 
 	std::vector<double> fi = fields.fi;
 
-
-	double coll_want = 0.;
-	for (std::size_t i = 0; i < num_ceil; i++) {
-		coll_want += electrons.collision[i];
-	}
-	double max_collis = 0;
 	
-
-	/*
-	for (std::size_t i = 0; i < num_ceil; i++) {
-		std::cout << electrons.collision[i] << " ";
-	}
-	*/
-	std::cout << "max collis = " << max_collis << std::endl;
-	 
 	//std::cout << "coll_want = "  << coll_want << std::endl;
 
 	for (int i = 1; i <= (T / dt); i++) {
 		electrons.move(fields);
 		ions.move(fields);
 		
-		
-		//electrons.emission_ionization(electrons.out_an - ions.out_kat);
+		electrons.emission_ionization(electrons.out_an - ions.out_kat);
 
 		//neutrons.move();
 
@@ -147,9 +212,8 @@ int main() {
 
 
 		//ПОТОМ ДОБАВИТЬ
-		electrons.ionization();
-		ions.ionization();
-		
+		ionization(ions, electrons);
+
 		//neutrons.ionization();
 
 
@@ -160,6 +224,8 @@ int main() {
 
 		if (i % shot == 0) {
 
+			
+			/*
 			std::ofstream coll_el1("coll_el.txt", std::ios::app);
 			std::ofstream out_el1("out_el.txt", std::ios::app);
 			std::ofstream out_ions1("out_ions.txt", std::ios::app);
@@ -167,20 +233,26 @@ int main() {
 			std::ofstream rho_el1("rho_el.txt", std::ios::app);
 			std::ofstream fi1("fi.txt", std::ios::app);
 			std::ofstream ne1("n_ntr.txt", std::ios::app);
-
+			std::ofstream born_el1("born_el.txt", std::ios::app);
+			std::ofstream born_ions1("born_ions.txt", std::ios::app);
+			*/
 			std::cout << "writing i = " << i << std::endl;
 			
 			coll_el1 << electrons.coll << std::endl;
 			
 			for (std::size_t p = 0; p < num_ceil; p++) {
-				out_el1 << electrons.divergention[p] * n_2 / (dt * shot) * q << " ";
+				out_el1 << electrons.divergention[p] * n_2 / (dt * shot) * q << " "; // запись тока в СИ (А/м^2)
+				// out_el1 << electrons.divergention[p] << " "; Запись в штуках
 				out_ions1 << ions.divergention[p] * n_2 / (dt * shot) * q << " ";
-				rho_ions1 << ions.rho[p] * denom / dx << " ";
-				rho_el1 << electrons.rho[p] * denom / dx << " ";
+				rho_ions1 << ions.rho[p] / denom << " ";
+				rho_el1 << electrons.rho[p] / denom << " ";
 				fi1 << fields.fi[p] << " ";
 				//ne1 << neutrons.n[p] << " ";
 
 			}
+			born_el1 << electrons.born << std::endl;
+			born_ions1 << ions.born << std::endl;
+
 			out_el1 << std::endl;
 			out_ions1 << std::endl;
 			rho_ions1 << std::endl;

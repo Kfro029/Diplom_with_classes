@@ -3,7 +3,7 @@
 // Реализация конструктора
 Field::Field()
 	: E(num_ceil, 0.0),
-	p(num_ceil - 2, 0.0), q(num_ceil - 2, 0.0),
+	p(num_ceil - 1, 0.0), q(num_ceil - 1, 0.0),
 	fi(num_ceil, 0.0), rho(num_ceil, 0.0), rho_el(num_ceil, 0.0), rho_ions(num_ceil, 0.0),
 	B(num_ceil, 0.0)
 {}
@@ -16,7 +16,6 @@ double Field::field_by_x(double x) {
 	double E_in_x = (E[ceil_x] * (dx - x_loc) + E[ceil_x + 1] * x_loc) / dx;
 	//std::cout << E_in_x << '\t' << x << "\n";
 	
-	//return 1.0e9;
 	return E_in_x;
 }
 
@@ -47,51 +46,34 @@ void Field::solve_field(Particles& el, Particles& ions) {
 
 	//ГУ
 
-
 	fi[0] = 200.0;
 	fi[fi.size() - 1] = 0.0;
 
 	//прямой ход
-	p[1] = 1.0 / 2.0;
-	q[1] = (dx * dx * rho[1] - fi[0]) / (-2.0);
+	p[2] = 1.0 / 2.0;
+	q[2] = (-rho[1] + fi[0]) / (2.0);
 
 
 	for (std::size_t i = 2; i + 2 < fi.size(); i++) {
-		p[i] = -1.0 / (p[i - 1] - 2.0);
-		q[i] = (dx * dx * rho[i] - q[i - 1]) / (p[i - 1] - 2.0);
+		p[i + 1] = -1.0 / (p[i] - 2.0);
+		q[i + 1] = (rho[i] - q[i]) / (p[i] - 2.0);
 	}
 
-	
-	fi[fi.size() - 2] = (dx * dx * rho[fi.size() - 2] - fi[fi.size() - 1] - q[fi.size() - 3]) / (p[fi.size() - 3] - 2.0);
+
+	fi[fi.size() - 2] = (rho[fi.size() - 2] - fi[fi.size() - 1] - q[fi.size() - 2]) / (p[fi.size() - 2] - 2.0);
 
 	//обратный ход
-	for (std::size_t i = fi.size() - 3; i > 0; i--) {
-		fi[i] = p[i] * fi[i + 1] + q[i];
+	for (int i = fi.size() - 3; i > 0; i--) {
+		fi[i] = p[i + 1] * fi[i + 1] + q[i + 1];
 	}
-
-	//вычисление эл. поля
-	
-	//fill_null_field(); //экспериментальный тест
-	//el.fill_null_part();
-	//ions.fill_null_part();
-
-	//добавим разность потенциалов на катоде и аноде:
 	
 	
-
-	/*
-	for (std::size_t i = 0; i < fi.size(); i++) {
-		fi[i] = 200.0 * (fi.size() - i * 1.0) / fi.size();
-	}
-	*/ 
-
-	/*
 	fi_em = (fi[ceil_emission] * (dx - loc_emission) + fi[ceil_emission + 1] * loc_emission) / dx;
 
 	for (std::size_t i = 0; i < fi.size(); i++) {
 		fi[i] -= fi_em / emission * (i * dx);
 	}
-	*/
+	
 	calc_E();
 }
 

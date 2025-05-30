@@ -8,12 +8,13 @@ Particles::Particles(double m, double q, double v_t, int seed)
 	gen(seed), dist(0.0, 1.0),
 	out_kat(0),
 	out_an(0),
-	ionaze(num_ceil, 0.0),
+	ionaze(num_ceil -1, 0.0),
 	collision(num_ceil, 0.00),
 	fly(0),
 	divergention(num_ceil, 0),
 	coll(0),
-	theor_coll(0.)
+	theor_coll(0.),
+	born(0)
 {
 	x.reserve(N);
 	v_x.reserve(N);
@@ -58,6 +59,7 @@ void Particles::zeros() {
 	std::fill(divergention.begin(), divergention.end(), 0);
 	coll = 0;
 	theor_coll = 0.;
+	born = 0;
 }
 
 // движение
@@ -89,7 +91,7 @@ void Particles::move(Field& fieldE) {
 		
 		// ГУ вылет и все
 		//подсчет вылета для разных частиц
-		if ((x[i] / dx) > x_ceil) {
+		if ((x[i] / dx) > x_ceil + 1) {
 			//divergention[x_ceil]--;
 			divergention[x_ceil + 1]++;
 		}
@@ -125,7 +127,7 @@ void Particles::move(Field& fieldE) {
 		
 
 		//СТОЛКНОВЕНИЯ
-		/*
+		
 		theor_coll += if_collis(x[i]);
 		if (get_random() < if_collis(x[i])) {
 			R_s = get_random();
@@ -136,7 +138,7 @@ void Particles::move(Field& fieldE) {
 
 			coll++;
 		}
-		*/
+		
 		
 		
 	}
@@ -152,24 +154,17 @@ void Particles::CIC() {
 
 
 		int ceil_left = (x[i])  / dx;
-		int ceil_right = ceil_left + 1;		
-		//int ceil_right = std::min(static_cast<size_t>(ceil_left + 1), x.size()-1);
+		int ceil_right = ceil_left + 1;
 		
 		double x_loc = fmod(x[i], dx);
-		//std::cout << "x[i]\t" << x[i] << "\ti\t" << i;
-		//std::cout << "\t left \t" << ceil_left << "\tright \t " << ceil_right << "\n";
-		
-		rho[ceil_left] += q * (dx - x_loc) / dx;
-		rho[ceil_right] += q * x_loc / dx;
+		rho[ceil_left] += (dx - x_loc) / dx;
+		rho[ceil_right] += x_loc / dx;
 		
 	}
-	//std::cout << rho[1];
 
 	for (std::size_t i = 0; i < rho.size(); i++) {
-		rho[i] *= (-n_2) / denom;
-		//std::cout << rho[i] << "\t" << i << "\n";
+		rho[i] *= q * (-n_2) * denom / dx;
 	}
-	
 }
 
 // начальная подвижка
@@ -182,7 +177,7 @@ void Particles::SETV(Field& fieldE) {
 
 
 		//расчет поворота частицы
-		double temp_t = q * fieldE.b_by_x(x[i]) / m * dt / 2;
+		double temp_t = (-q/2.) * fieldE.b_by_x(x[i]) / m * dt / 2;
 		double temp_s = 2 * temp_t / (1 + temp_t * temp_t);
 		double temp_c = (1 - temp_t * temp_t) / (1 + temp_t * temp_t);
 
@@ -195,7 +190,7 @@ void Particles::SETV(Field& fieldE) {
 		
 
 		//Столкновения
-		/*
+		
 		if (get_random() < if_collis(x[i])) {
 			R_s = get_random();
 			R_theta = get_random();
@@ -203,7 +198,7 @@ void Particles::SETV(Field& fieldE) {
 			v_x[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta));
 			v_y[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
 		}
-		*/
+		
 	}
 }
 
@@ -264,7 +259,9 @@ void Particles::fill(Field& fieldE) {
 
 // ионизация
 void Particles::ionization() {
-	for (std::size_t i = 0; i + 1 < ionaze.size(); i++) {
+
+	
+	for (std::size_t i = 0; i + 1 < num_ceil; i++) {
 
 		// целая часть ионизации в ячейке
 		for (int j = 0; j < int(ionaze[i]); j++) {
@@ -275,6 +272,9 @@ void Particles::ionization() {
 
 			v_x.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta));
 			v_y.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
+
+			std::cout << "born ";
+			born++;
 		}
 		//дробная
 		if (get_random() < fmod(ionaze[i], 1.0)) {
@@ -285,55 +285,28 @@ void Particles::ionization() {
 
 			v_x.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta));
 			v_y.push_back(v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
+			
+			std::cout << "born ";
+			born++;
 		}
+
 
 	}
 
 }
 
 // подгрузка функции ионизации из файла
-void Particles::loadFromFile(std::string filename) {
+void Particles::loadFromFile(const std::string filename) {
 	std::ifstream file(filename);
-	if (!file) {
-		std::cerr << "Don't find field B in file: " << filename << std::endl;
+
+	if (!file.is_open()) {
+		std::cerr << "Не удалось открыть файл: " << filename << std::endl;
 		return;
 	}
 
-	std::vector<double> file_data;
-	double value;
-	while (file >> value) {
-		file_data.push_back(value);
-	}
+	for (std::size_t i = 0; i < ionaze.size() && file >> ionaze[i]; ++i);
 
-	int file_size = file_data.size();
-	//int B_size = num_ceil;
-
-	if (file_size == num_ceil) {
-		ionaze = file_data;
-	}
-	else {
-		std::cout << "start process of interpolation ionization function..." << std::endl;
-		// B.resize(B_size);  
-
-		double dx_file = L / (file_size - 1);  // Исправлено
-		double dx_grid = dx;
-
-		for (int i = 0; i < num_ceil; i++) {
-			x_grid = i * dx;
-
-			idx = static_cast<int>(x_grid / dx_file);
-			alpha = (x_grid - idx * dx_file) / dx_file;
-
-			if (idx >= file_size - 1) {
-				ionaze[i] = file_data.back();
-			}
-			else {
-				ionaze[i] = (1 - alpha) * file_data[idx] + alpha * file_data[idx + 1];
-			}
-		}
-	}
-
-	for (std::size_t i = 0; i < ionaze.size(); i++) {
-		ionaze[i] = ionaze[i] / n_2 / abs(q) * dt;
+	for (std::size_t i = 0; i < ionaze.size(); ++i) {
+		ionaze[i] = ionaze[i] / n_2 / std::abs(q) * dt;
 	}
 }
