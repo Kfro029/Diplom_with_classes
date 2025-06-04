@@ -82,7 +82,8 @@ void ionization(Particles& ions, Particles& el) {
 int main() {
 
 	Field fields;
-	fields.loadFromFile("B_values.txt");
+	fields.loadFromFile_B("B.txt");
+	//fields.loadFromFile_Ey("Ey.txt");
 
 
 	//Создаются электроны и ионы
@@ -98,7 +99,7 @@ int main() {
 	//neutrons.fill();
 
 	//ions.loadFromFile("ionization_ion_values.txt");
-	electrons.loadFromFile("ionization_values.txt");
+	electrons.loadFromFile_ionization("ionization.txt");
 
 
 
@@ -156,8 +157,14 @@ int main() {
 	//std::vector<double> rho_ions = ions.rho;
 	for (std::size_t p = 0; p < electrons.ionaze.size(); p++) {
 
+		
+		
 		//rho_ions1 << ions.rho[p] / denom << " ";
-		std::cout << electrons.ionaze[p] << " ";
+		
+		
+		//std::cout << electrons.ionaze[p] << " ";
+		
+		
 		//ne1 << neutrons.n[p] << " ";
 
 	}

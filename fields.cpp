@@ -2,31 +2,42 @@
 
 // –еализаци€ конструктора
 Field::Field()
-	: E(num_ceil, 0.0),
+	: Ex(num_ceil, 0.0),
+	Ey(num_ceil, 0.0),
 	p(num_ceil - 1, 0.0), q(num_ceil - 1, 0.0),
 	fi(num_ceil, 0.0), rho(num_ceil, 0.0), rho_el(num_ceil, 0.0), rho_ions(num_ceil, 0.0),
 	B(num_ceil, 0.0)
 {}
 
 // –еализаци€ методов
-double Field::field_by_x(double x) {
+double Field::field_Ex_by_x(double x) {
 	int ceil_x = x / dx; //номер €чейки дл€ частицы
 	double x_loc = fmod(x, dx); //координата в €чейке
 	
-	double E_in_x = (E[ceil_x] * (dx - x_loc) + E[ceil_x + 1] * x_loc) / dx;
+	double Ex_in_x = (Ex[ceil_x] * (dx - x_loc) + Ex[ceil_x + 1] * x_loc) / dx;
 	//std::cout << E_in_x << '\t' << x << "\n";
 	
-	return E_in_x;
+	return Ex_in_x;
+}
+
+double Field::field_Ey_by_x(double x) {
+	int ceil_x = x / dx; //номер €чейки дл€ частицы
+	double x_loc = fmod(x, dx); //координата в €чейке
+
+	double Ey_in_x = (Ey[ceil_x] * (dx - x_loc) + Ey[ceil_x + 1] * x_loc) / dx;
+	//std::cout << E_in_x << '\t' << x << "\n";
+
+	return Ey_in_x;
 }
 
 
-void Field::calc_E() {
-	E[0] = (fi[0] - fi[1]) / dx;
+void Field::calc_Ex() {
+	Ex[0] = (fi[0] - fi[1]) / dx;
 	for (int i = 1; i + 1 < fi.size(); i++) {
-		E[i] = (fi[i - 1] - fi[i + 1]) / (2.0 * dx);
+		Ex[i] = (fi[i - 1] - fi[i + 1]) / (2.0 * dx);
 		//std::cout << E[i] << "\ti" << "\n";
 	}
-	E[E.size() - 1] = (fi[fi.size() - 2] - fi[fi.size() - 1]) / dx;
+	Ex[Ex.size() - 1] = (fi[fi.size() - 2] - fi[fi.size() - 1]) / dx;
 
 };
 
@@ -74,10 +85,10 @@ void Field::solve_field(Particles& el, Particles& ions) {
 		fi[i] -= fi_em / emission * (i * dx);
 	}
 	
-	calc_E();
+	calc_Ex();
 }
 
-void Field::loadFromFile(std::string filename) {
+void Field::loadFromFile_B(std::string filename) {
 	//магнитное поле задаетс€ в √с, а мы потом переводим в “л
 	std::ifstream file(filename);
 	if (!file) {
@@ -122,6 +133,19 @@ void Field::loadFromFile(std::string filename) {
 	for (std::size_t i = 0; i < B.size(); i++) {
 		B[i] = B[i] * 1. / 10000.;
 	}
+}
+
+// подгрузка функции Ey из файла
+void Field::loadFromFile_Ey(std::string filename) {
+	std::ifstream file(filename);
+
+	if (!file.is_open()) {
+		std::cerr << "Ќе удалось открыть файл: " << filename << std::endl;
+		return;
+	}
+
+	for (std::size_t i = 0; i < Ey.size() && file >> Ey[i]; ++i);
+
 }
 
 double Field::b_by_x(double x) {

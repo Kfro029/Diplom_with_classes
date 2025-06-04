@@ -70,8 +70,9 @@ void Particles::move(Field& fieldE) {
 	for (int i = x.size() - 1; i >= 0; i--) {
 		x_ceil = x[i] / dx;
 		//расчет скорости на dt/2
-		v_x[i] += fieldE.field_by_x(x[i]) * q / m * (dt / 2.0);
-		
+		v_x[i] += fieldE.field_Ex_by_x(x[i]) * q / m * (dt / 2.0);
+		//v_y[i] += fieldE.field_Ey_by_x(x[i]) * q / m * (dt / 2.0);
+
 
 		//расчет поворота частицы
 		double temp_t = q * fieldE.b_by_x(x[i]) / m * dt / 2;
@@ -83,7 +84,9 @@ void Particles::move(Field& fieldE) {
 		v_x[i] = v_x_new;
 
 		//еще подвинулись на dt/2
-		v_x[i] += fieldE.field_by_x(x[i]) * q / m * (dt / 2.0);
+		v_x[i] += fieldE.field_Ex_by_x(x[i]) * q / m * (dt / 2.0);
+		//v_y[i] += fieldE.field_Ey_by_x(x[i]) * q / m * (dt / 2.0);
+		
 		x[i] += v_x[i] * dt;
 		
 
@@ -173,7 +176,8 @@ void Particles::SETV(Field& fieldE) {
 		x_ceil = x[i] / dx;
 
 		//расчет скорости на dt/2
-		v_x[i] += fieldE.field_by_x(x[i]) * (-q/ 2.) / m * (dt / 2.0);
+		v_x[i] += fieldE.field_Ex_by_x(x[i]) * (-q/ 2.) / m * (dt / 2.0);
+		//v_y[i] += fieldE.field_Ey_by_x(x[i]) * (-q / 2.) / m * (dt / 2.0);
 
 
 		//расчет поворота частицы
@@ -186,8 +190,8 @@ void Particles::SETV(Field& fieldE) {
 		v_x[i] = v_x_new;
 
 		//еще подвинулись на dt/2
-		v_x[i] += fieldE.field_by_x(x[i]) * (-q/2.0) / m * (dt / 2.0);
-		
+		v_x[i] += fieldE.field_Ex_by_x(x[i]) * (-q / 2.) / m * (dt / 2.0);
+		//v_y[i] += fieldE.field_Ey_by_x(x[i]) * (-q / 2.) / m * (dt / 2.0);
 
 		//Столкновения
 		
@@ -296,7 +300,7 @@ void Particles::ionization() {
 }
 
 // подгрузка функции ионизации из файла
-void Particles::loadFromFile(const std::string filename) {
+void Particles::loadFromFile_ionization(const std::string filename) {
 	std::ifstream file(filename);
 
 	if (!file.is_open()) {
@@ -307,6 +311,6 @@ void Particles::loadFromFile(const std::string filename) {
 	for (std::size_t i = 0; i < ionaze.size() && file >> ionaze[i]; ++i);
 
 	for (std::size_t i = 0; i < ionaze.size(); ++i) {
-		ionaze[i] = ionaze[i] / n_2 / std::abs(q) * dt;
+		ionaze[i] = ionaze[i] / n_2 / std::abs(q) * dt * dx;
 	}
 }

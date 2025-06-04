@@ -68,7 +68,7 @@ public:
     //методы
     // 
     //загрузка файла
-    void loadFromFile(std::string filename);
+    void loadFromFile_ionization(std::string filename);
 
 
 

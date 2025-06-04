@@ -13,7 +13,9 @@ class Particles;
 class Field {
 private:
 public:
-    std::vector<double> E;
+    std::vector<double> Ex;
+    std::vector<double> Ey;
+
     std::vector<double> p; // для прогонки Пуассона
     std::vector<double> q; // для прогонки Пуассона
 
@@ -29,13 +31,17 @@ public:
 
     Field(); // Конструктор
 
-    double field_by_x(double x); //вернуть значение поля по координате x
+    double field_Ex_by_x(double x); //вернуть значение поля Ex по координате x
+    double field_Ey_by_x(double x); //вернуть значение поля Ey по координате x
+
     void solve_field(Particles& el, Particles& ions); // Решение уравнения Пуассона -> находим fi
-    void calc_E();
+    void calc_Ex();
 
     void fill_null_field(); //заполнить все нулями после Move/SETV
 
 
-    void loadFromFile(std::string filename);
+    void loadFromFile_B(std::string filename);
+    void loadFromFile_Ey(std::string filename);
+
     double b_by_x(double x);
 };
