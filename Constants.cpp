@@ -6,7 +6,7 @@ double eps = 0 * L * 1.0e-16; // сколько частица не долетает до правой стенки
 int num_ceil = 400; // число узлов
 double dx = L / (num_ceil * 1.0 - 1.0); // шаг по сетке
 
-double T = 3.5e-6; // всего времени
+double T = 2.0e-5; // всего времени
 double dt = 5.6e-12; // шаг по времени
 int shot = 1000;
 
@@ -46,11 +46,13 @@ double q = 1.6 * pow(10, -19);
 double kB = 1.380649e-23;   // Постоянная Больцмана (Дж/К)
 double eV_to_K = 11604.525; // 1 эВ = 11604.525 K
 
+double T_ions = 500; // К
 
-double T_eV = 10; // эВ
+double T_eV_el = 10; // эВ
+double T_eV_ions = T_ions / eV_to_K; // эВ
 
-double v_t_el = std::sqrt(3 * kB * T_eV * eV_to_K / m_el);
-double v_t_ions = std::sqrt(3 * kB * T_eV * eV_to_K / m_ion);
+double v_t_el = std::sqrt(3 * kB * T_eV_el * eV_to_K / m_el);
+double v_t_ions = std::sqrt(3 * kB * T_eV_ions * eV_to_K / m_ion);
 
 
 double BPHI0 = 0.00215;

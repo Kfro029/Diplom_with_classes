@@ -131,7 +131,7 @@ void Field::loadFromFile_B(std::string filename) {
 	}
 	
 	for (std::size_t i = 0; i < B.size(); i++) {
-		B[i] = B[i] * 1. / 10000.;
+		//B[i] = B[i] * 1. / 10000.;
 	}
 }
 

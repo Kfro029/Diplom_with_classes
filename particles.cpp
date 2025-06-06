@@ -71,13 +71,13 @@ void Particles::move(Field& fieldE) {
 		x_ceil = x[i] / dx;
 		//расчет скорости на dt/2
 		v_x[i] += fieldE.field_Ex_by_x(x[i]) * q / m * (dt / 2.0);
-		//v_y[i] += fieldE.field_Ey_by_x(x[i]) * q / m * (dt / 2.0);
+		v_y[i] += fieldE.field_Ey_by_x(x[i]) * q / m * (dt / 2.0);
 
 
 		//расчет поворота частицы
-		double temp_t = q * fieldE.b_by_x(x[i]) / m * dt / 2;
-		double temp_s = 2 * temp_t / (1 + temp_t * temp_t);
-		double temp_c = (1 - temp_t * temp_t) / (1 + temp_t * temp_t);
+		double temp_t = q * fieldE.b_by_x(x[i]) / m * dt / 2.;
+		double temp_s = 2. * temp_t / (1. + temp_t * temp_t);
+		double temp_c = (1. - temp_t * temp_t) / (1. + temp_t * temp_t);
 
 		double v_x_new = v_x[i] * temp_c + v_y[i] * temp_s;
 		v_y[i] = -v_x[i] * temp_s + v_y[i] * temp_c;
@@ -85,7 +85,7 @@ void Particles::move(Field& fieldE) {
 
 		//еще подвинулись на dt/2
 		v_x[i] += fieldE.field_Ex_by_x(x[i]) * q / m * (dt / 2.0);
-		//v_y[i] += fieldE.field_Ey_by_x(x[i]) * q / m * (dt / 2.0);
+		v_y[i] += fieldE.field_Ey_by_x(x[i]) * q / m * (dt / 2.0);
 		
 		x[i] += v_x[i] * dt;
 		
@@ -130,7 +130,7 @@ void Particles::move(Field& fieldE) {
 		
 
 		//СТОЛКНОВЕНИЯ
-		
+		/*
 		theor_coll += if_collis(x[i]);
 		if (get_random() < if_collis(x[i])) {
 			R_s = get_random();
@@ -141,7 +141,7 @@ void Particles::move(Field& fieldE) {
 
 			coll++;
 		}
-		
+		*/
 		
 		
 	}
@@ -177,7 +177,7 @@ void Particles::SETV(Field& fieldE) {
 
 		//расчет скорости на dt/2
 		v_x[i] += fieldE.field_Ex_by_x(x[i]) * (-q/ 2.) / m * (dt / 2.0);
-		//v_y[i] += fieldE.field_Ey_by_x(x[i]) * (-q / 2.) / m * (dt / 2.0);
+		v_y[i] += fieldE.field_Ey_by_x(x[i]) * (-q / 2.) / m * (dt / 2.0);
 
 
 		//расчет поворота частицы
@@ -191,10 +191,10 @@ void Particles::SETV(Field& fieldE) {
 
 		//еще подвинулись на dt/2
 		v_x[i] += fieldE.field_Ex_by_x(x[i]) * (-q / 2.) / m * (dt / 2.0);
-		//v_y[i] += fieldE.field_Ey_by_x(x[i]) * (-q / 2.) / m * (dt / 2.0);
+		v_y[i] += fieldE.field_Ey_by_x(x[i]) * (-q / 2.) / m * (dt / 2.0);
 
 		//Столкновения
-		
+		/*
 		if (get_random() < if_collis(x[i])) {
 			R_s = get_random();
 			R_theta = get_random();
@@ -202,7 +202,7 @@ void Particles::SETV(Field& fieldE) {
 			v_x[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::cos(2 * 3.1416 * R_theta));
 			v_y[i] = (v_t * std::sqrt(-2 * std::log(R_s)) * std::sin(2 * 3.1416 * R_theta));
 		}
-		
+		*/
 	}
 }
 

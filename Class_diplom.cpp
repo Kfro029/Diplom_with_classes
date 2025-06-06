@@ -83,7 +83,7 @@ int main() {
 
 	Field fields;
 	fields.loadFromFile_B("B.txt");
-	//fields.loadFromFile_Ey("Ey.txt");
+	fields.loadFromFile_Ey("Ey.txt");
 
 
 	//Создаются электроны и ионы
@@ -251,8 +251,13 @@ int main() {
 				out_el1 << electrons.divergention[p] * n_2 / (dt * shot) * q << " "; // запись тока в СИ (А/м^2)
 				// out_el1 << electrons.divergention[p] << " "; Запись в штуках
 				out_ions1 << ions.divergention[p] * n_2 / (dt * shot) * q << " ";
-				rho_ions1 << ions.rho[p] / denom << " ";
-				rho_el1 << electrons.rho[p] / denom << " ";
+
+
+				//rho_ions1 << ions.rho[p] / denom / (q * (-n_2) * denom / dx) << " "; //в частицах
+				//rho_el1 << electrons.rho[p] / denom / (q * (-n_2) * denom / dx) << " ";
+
+				rho_ions1 << ions.rho[p] / denom << " "; // в Кл/м3
+				rho_el1 << electrons.rho[p] / denom << " "; // в Кл/м3
 				fi1 << fields.fi[p] << " ";
 				//ne1 << neutrons.n[p] << " ";
 

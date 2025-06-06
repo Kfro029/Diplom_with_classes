@@ -1,7 +1,7 @@
 # ninja log v5
-21	172	7707695992497345	CMakeFiles/Class_diplom.dir/Constants.cpp.obj	b23dcb6131816884
-8	938	7707695999997362	CMakeFiles/Class_diplom.dir/fields.cpp.obj	93c1af88c73a6f9a
-3	956	7707696000297359	CMakeFiles/Class_diplom.dir/Class_diplom.cpp.obj	28fb0a4269e62289
-27	968	7707696000427352	CMakeFiles/Class_diplom.dir/neutrons.cpp.obj	99c72a02b73aeb29
-13	1067	7707696001427340	CMakeFiles/Class_diplom.dir/particles.cpp.obj	c486b4648fd87de9
-1067	1538	7707696002627367	Class_diplom.exe	394675e1e3d1cc5b
+24	213	7709402446593664	CMakeFiles/Class_diplom.dir/Constants.cpp.obj	b23dcb6131816884
+31	1360	7709402458028841	CMakeFiles/Class_diplom.dir/neutrons.cpp.obj	99c72a02b73aeb29
+4	1399	7709402458358840	CMakeFiles/Class_diplom.dir/Class_diplom.cpp.obj	28fb0a4269e62289
+12	1528	7709402459678824	CMakeFiles/Class_diplom.dir/fields.cpp.obj	93c1af88c73a6f9a
+18	1557	7709402460018830	CMakeFiles/Class_diplom.dir/particles.cpp.obj	c486b4648fd87de9
+1557	2204	7709402461688808	Class_diplom.exe	394675e1e3d1cc5b

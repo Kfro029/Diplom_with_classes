@@ -45,7 +45,10 @@ extern double m_ion;
 extern double m_el;
 extern double q;
 
-extern double T_eV;
+extern double T_ions;
+
+extern double T_eV_el;
+extern double T_eV_ions;
 
 extern double kB;   // Постоянная Больцмана (Дж/К)
 extern double eV_to_K;
